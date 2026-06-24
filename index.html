@@ -426,79 +426,6 @@
             text-decoration: none;
             display: inline-block;
         }
-
-        /* MODAL STYLES */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            backdrop-filter: blur(4px);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        .modal-content {
-            position: relative;
-            width: 90vw;
-            max-width: 1200px;
-            height: 85vh;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 50px 150px rgba(255, 59, 111, 0.2);
-            transform: scale(0.95) translateY(20px);
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .modal-overlay.active .modal-content {
-            transform: scale(1) translateY(0);
-        }
-
-        .modal-frame {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background: var(--bg);
-        }
-
-        .modal-close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 44px;
-            height: 44px;
-            background: var(--surface-card);
-            border: 1px solid rgba(255, 59, 111, 0.3);
-            border-radius: 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-main);
-            font-size: 20px;
-            z-index: 2001;
-            transition: all 0.2s ease;
-        }
-
-        .modal-close-btn:hover {
-            background: var(--coral);
-            border-color: var(--coral);
-            transform: rotate(90deg);
-            box-shadow: 0 0 20px rgba(255, 59, 111, 0.4);
-        }
     </style>
 </head>
 <body>
@@ -531,16 +458,16 @@
                 <div class="content-cluster">
                     <div class="section-tag">01 // Mathematical Frameworks</div>
                     <h1>We don't rely on raw formulas. We look for <span>patterns</span>.</h1>
-                    <p class="narrative-p">The AMC 8 doesn't just test how fast you can calculate; it rewards deep problem comprehension. We show students how to break down intricate wording into simp[...]
+                    <p class="narrative-p">The AMC 8 doesn't just test how fast you can calculate; it rewards deep problem comprehension. We show students how to break down intricate wording into simple, visual properties to isolate the correct answers cleanly.</p>
                     
                     <div class="scroll-reveal-card">
                         <h3>Strategic Symmetry</h3>
-                        <p style="color: var(--text-muted);">Many complex counting and geometry problems contain hidden balance. By recognizing uniform structures early, you can solve half the problem[...]
+                        <p style="color: var(--text-muted);">Many complex counting and geometry problems contain hidden balance. By recognizing uniform structures early, you can solve half the problem and accurately scale up your results without making trivial errors.</p>
                     </div>
 
                     <div class="scroll-reveal-card">
                         <h3>Isolating Modular Cycles</h3>
-                        <p style="color: var(--text-muted);">Number theory problems frequently rely on repeating patterns. We teach students to confidently map small repeating cycles to quickly figure[...]
+                        <p style="color: var(--text-muted);">Number theory problems frequently rely on repeating patterns. We teach students to confidently map small repeating cycles to quickly figure out huge exponential remainders under tight exam limits.</p>
                     </div>
                 </div>
             </div>
@@ -572,7 +499,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><div><p>If a problem asks you to count dozens of messy possibilities, don't do it the hard way. Instead, look at the b[...]
+                            <div class="drawer-content"><div class="drawer-inner"><div><p>If a problem asks you to count dozens of messy possibilities, don't do it the hard way. Instead, look at the big picture. Find the total number of options, figure out the few "forbidden" ones you don't want, and subtract them. Whenever you spot phrases like "at least one," this trick will save you a ton of time.</p><button class="lesson-btn" onclick="redirectToWeek1(event)">View Week 1 Lesson</button></div></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -583,7 +510,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>Arranging people or items in a row gets confusing when rules pop up. We will look at how to map out seating plans a[...]
+                            <div class="drawer-content"><div class="drawer-inner"><p>Arranging people or items in a row gets confusing when rules pop up. We will look at how to map out seating plans and codes using slot diagrams. You will learn the exact steps to handle picky restrictions, like when two items refuse to be next to each other or when someone must sit in a specific spot.</p></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -594,7 +521,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>When you are picking a team, order does not matter—picking Sam then Alex is the exact same as picking Alex then S[...]
+                            <div class="drawer-content"><div class="drawer-inner"><p>When you are picking a team, order does not matter—picking Sam then Alex is the exact same as picking Alex then Sam. We will learn how to easily spot when order is an illusion and how to use simple division to clean out double-counted groups. This makes handshake and committee problems a breeze.</p></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -605,7 +532,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>When different groups share members, normal adding causes mistakes. We will use visual maps to break these chaotic [...]
+                            <div class="drawer-content"><div class="drawer-inner"><p>When different groups share members, normal adding causes mistakes. We will use visual maps to break these chaotic overlapping word problems into neat, separate zones. You will learn how to handle double and triple overlaps perfectly so you never accidentally count a student or item twice.</p></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -616,7 +543,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>Stop making long, exhausting lists to find the factors of a number. We are going to break integers down into their [...]
+                            <div class="drawer-content"><div class="drawer-inner"><p>Stop making long, exhausting lists to find the factors of a number. We are going to break integers down into their core prime numbers to see exactly how they are built. With a quick exponent shortcut, you will instantly know how many total factors a massive number has without finding them one by one.</p></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -627,7 +554,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>How do you find the last digit of a giant number like $7^{2026}$ without multiplying forever? You find the heartbea[...]
+                            <div class="drawer-content"><div class="drawer-inner"><p>How do you find the last digit of a giant number like $7^{2026}$ without multiplying forever? You find the heartbeat of the number. Numbers love to repeat themselves in predictable cycles when raised to powers. We will learn to catch these rhythms so you can solve massive remainder problems in seconds.</p></div></div>
                         </div>
                     </div>
                 </div>
@@ -657,7 +584,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>When clocks, alarms, or racing cars start at different times, finding out when they line up seems chaotic. We will [...]
+                            <div class="drawer-content"><div class="drawer-inner"><p>When clocks, alarms, or racing cars start at different times, finding out when they line up seems chaotic. We will use Least Common Multiples to pinpoint exact match-up moments. Plus, we will learn secret shortcuts for numbers like 3, 9, and 11 to check for divisibility without long division.</p></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -668,7 +595,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>Adding up a massive string of numbers one by one is a trap designed to waste your time. We will use a beautiful bal[...]
+                            <div class="drawer-content"><div class="drawer-inner"><p>Adding up a massive string of numbers one by one is a trap designed to waste your time. We will use a beautiful balancing trick to pair up the first and last numbers of a sequence. This collapses huge lists of numbers up to 1,000 into a simple, single multiplication step that takes five seconds.</p></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -679,7 +606,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus) "></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>Instead of stressed-out tracking of two different moving objects at the same time, just freeze one of them in place[...]
+                            <div class="drawer-content"><div class="drawer-inner"><p>Instead of stressed-out tracking of two different moving objects at the same time, just freeze one of them in place! By looking at how fast the gap between them closes or opens, we turn confusing head-to-head races and round-trips into basic, quick distance math while avoiding sneaky speed traps.</p></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -690,7 +617,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>When things are changing fast—water evaporating from a pool, ingredients mixing, or groups swapping members—loo[...]
+                            <div class="drawer-content"><div class="drawer-inner"><p>When things are changing fast—water evaporating from a pool, ingredients mixing, or groups swapping members—look for the one thing that stays exactly the same. Locking onto this hidden anchor lets you build simple, perfectly balanced equations that bypass pages of ugly algebra.</p></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -701,7 +628,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>Don't panic when you see a strange, jagged, irregular shape on the test. If you don't know a formula for it, just d[...]
+                            <div class="drawer-content"><div class="drawer-inner"><p>Don't panic when you see a strange, jagged, irregular shape on the test. If you don't know a formula for it, just draw a clean rectangle around it! We will learn how to calculate the easy outer shapes and cut them away from the main box to leave you with the exact shaded answer you need.</p></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -712,7 +639,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>Knowing the math doesn't matter if you run out of time or freeze up under pressure. In our final week, we learn tes[...]
+                            <div class="drawer-content"><div class="drawer-inner"><p>Knowing the math doesn't matter if you run out of time or freeze up under pressure. In our final week, we learn test-taking strategy. You will practice how to sort through the hardest endgame questions, when to skip, how to make smart guesses, and how to protect your score when the clock is ticking down.</p></div></div>
                         </div>
                     </div>
                 </div>
@@ -722,36 +649,26 @@
         <section id="curator">
             <div class="content-cluster" style="width: 100%;">
                 <div class="section-tag">03 // The Instructor Desk</div>
-                <h2>Hi there, let's look at the logic together. This tutoring is <span style="background: none; -webkit-text-fill-color: var(--coral); text-transform: uppercase; font-weight: 800; lett[...]
+                <h2>Hi there, let's look at the logic together. This tutoring is <span style="background: none; -webkit-text-fill-color: var(--coral); text-transform: uppercase; font-weight: 800; letter-spacing: 1px;">100% FREE</span></h2>
                 
                 <div class="profile-matrix">
                     <div class="profile-wrapper">
                         <img src="https://lh3.googleusercontent.com/d/1Msueoy-ns-B7q7OGC78yYuiSLMCyZEKA" alt="Instructor Profile Analysis Frame">                    </div>
                     <div class="bio-cluster">
                         <h3>Behind the Materials</h3>
-                        <p>I know how exhausting it can be to stare at dry textbook formulas that make simple concepts look incredibly intimidating. Math shouldn't feel like endless memorization under[...]
-                        <p>My goal is to share the visual strategies and problem-solving shortcuts that clicked for me, helping middle school students approach every question with total confidence and[...]
+                        <p>I know how exhausting it can be to stare at dry textbook formulas that make simple concepts look incredibly intimidating. Math shouldn't feel like endless memorization under pressure—it's really about learning to spot patterns and enjoying the process of breaking down a problem.</p>
+                        <p>My goal is to share the visual strategies and problem-solving shortcuts that clicked for me, helping middle school students approach every question with total confidence and zero math anxiety.</p>
                         
                         <div class="metrics-grid">
                             <div class="metric-row"><i class="fa-solid fa-user-graduate"></i><span><strong>Current Status:</strong> 11th Grader at ECHS</span></div>
-                            <div class="metric-row"><i class="fa-solid fa-shapes"></i><span><strong>Favorite Focus Areas:</strong> Combinatorics, Number Theory, and Creative Geometry Layouts</span></d[...]
-                            <div class="metric-row"><i class="fa-solid fa-heart"></i><span><strong>Our Main Goal:</strong> A <strong style="color: var(--coral); text-transform: uppercase; letter-spaci[...]
+                            <div class="metric-row"><i class="fa-solid fa-shapes"></i><span><strong>Favorite Focus Areas:</strong> Combinatorics, Number Theory, and Creative Geometry Layouts</span></div>
+                            <div class="metric-row"><i class="fa-solid fa-heart"></i><span><strong>Our Main Goal:</strong> A <strong style="color: var(--coral); text-transform: uppercase; letter-spacing: 0.5px;">free</strong>, community-focused initiative to make competition math approachable for everyone.</span></div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-    </div>
-
-    <!-- MODAL FOR LESSON PREVIEW -->
-    <div class="modal-overlay" id="lessonModal">
-        <div class="modal-content">
-            <button class="modal-close-btn" onclick="closeModal()">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <iframe class="modal-frame" id="modalFrame"></iframe>
-        </div>
     </div>
 
     <footer>
@@ -831,42 +748,10 @@
                 content.style.maxHeight = content.scrollHeight + "px";
             }
         }
-
-        // MODAL FUNCTIONS
-        function openModal(weekFile) {
-            const modal = document.getElementById('lessonModal');
-            const iframe = document.getElementById('modalFrame');
-            iframe.src = weekFile;
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('lessonModal');
-            const iframe = document.getElementById('modalFrame');
-            modal.classList.remove('active');
-            iframe.src = '';
-            document.body.style.overflow = 'auto';
-        }
-
-        // Close modal on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeModal();
-            }
-        });
-
-        // Close modal when clicking outside the content
-        document.getElementById('lessonModal').addEventListener('click', (e) => {
-            if (e.target.id === 'lessonModal') {
-                closeModal();
-            }
-        });
-
-        // Updated function - now opens modal instead of redirecting
+    
         function redirectToWeek1(event) {
             event.stopPropagation();
-            openModal('week_1.html');
+            window.location.href = 'week_1.html';
         }
     </script>
 </body>
