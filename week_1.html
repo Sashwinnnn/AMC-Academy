@@ -242,7 +242,7 @@
         }
 
         .timer-matrix { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-        .matrix-card { background: linear-gradient(135deg, var(--surface), rgba(11,14,26,0.2)); border: 1px solid rgba(255,255,255,0.03); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; position: relative; }
+        .matrix-card { background: linear-gradient(135deg, var(--surface), rgba(11,14,26,0.2)); border: 1px solid rgba(255,255,255,0.03); border-radius: 16px; padding: 24px; display: flex; flex-d[...]
         .matrix-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 16px; }
         .matrix-card p { font-size: 14px; line-height: 1.6; color: var(--text-muted); flex: 1; margin-bottom: 20px; }
         .matrix-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--text-muted); }
@@ -402,11 +402,40 @@
             opacity: 0;
             transition: opacity 0.2s ease;
         }
+
+        /* Close button styles */
+        .close-x {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.06);
+            color: rgba(248,250,252,0.85);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 200;
+            transition: all 0.15s ease;
+            font-size: 18px;
+        }
+
+        .close-x:hover { background: rgba(255,59,111,0.06); border-color: var(--coral); color: var(--coral); }
+
+        .nav-actions .close-btn { width: auto; padding: 0 12px; font-weight: 700; height: 44px; border-radius: 12px; }
+        .nav-actions .close-btn i { margin-right: 8px; }
+
     </style>
 </head>
 <body>
 
     <div class="workspace-hub">
+
+        <!-- Top-right close control that always navigates back -->
+        <button id="close-x" class="close-x" aria-label="Close presentation" onclick="closePresentation()">&times;</button>
         
         <div class="lockout-blanket" id="lock-screen">
             <div class="lock-container">
@@ -462,11 +491,11 @@
                 <div class="split-grid">
                     <div class="column-card">
                         <h3>THE BASIC SET</h3>
-                        <p>You flip a coin 3 times. List every outcome where you get exactly 2 heads.<br><br><strong>Target:</strong> Establishing baseline notation accuracy and manual list building u[...]</p>
+                        <p>You flip a coin 3 times. List every outcome where you get exactly 2 heads.<br><br><strong>Target:</strong> Establishing baseline notation accuracy and manual list build[...]</p>
                     </div>
                     <div class="column-card coral-variant">
                         <h3>VISUAL COUNTING</h3>
-                        <p>A spider travels strictly along the edges of a 3D cube. How many unique paths can it take from one starting corner to the completely opposite corner?<br><br><strong>Target:[...]</strong></p>
+                        <p>A spider travels strictly along the edges of a 3D cube. How many unique paths can it take from one starting corner to the completely opposite corner?<br><br><strong>Tar[...]</p>
                     </div>
                 </div>
             </div>
@@ -499,9 +528,9 @@
                 <h2 class="slide-title">Walking Through <span>The Numbers</span></h2>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; font-size: 16px; line-height: 1.8;">
                     <p style="color: var(--amber); margin-bottom: 12px; font-weight: 600;">Problem: How many 3-digit numbers have at least one digit that is a 0?</p>
-                    <p>1. Find Total Universe (Every possible 3-digit number from 100 to 999): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>9</mn><mo>×</mo><mn>10</mn><mo>×</mo><mn>10</mn><mo>=</mo><mn>900</mn></math></p>
-                    <p style="margin-top: 8px;">2. Find Forbidden Set (Numbers containing absolutely NO zeros at all): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>9</mn><mo>×</mo><mn>9</mn><mo>×</mo><mn>9</mn><mo>=</mo><mn>729</mn></math></p>
-                    <p style="color: var(--coral); font-weight: 600; margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05);">3. Final Evaluation Shortcut (Universe minus Forbidden): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>900</mn><mo>−</mo><mn>729</mn><mo>=</mo><mn>171</mn></math></p>
+                    <p>1. Find Total Universe (Every possible 3-digit number from 100 to 999): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>9</mn><mo>×</mo><mn>10</mn><mo>×</mo><mn>10</mn><mo>=</mo><m[...]</p>
+                    <p style="margin-top: 8px;">2. Find Forbidden Set (Numbers containing absolutely NO zeros at all): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>9</mn><mo>×</mo><mn>9</mn><mo>×</mo>[...]</p>
+                    <p style="color: var(--coral); font-weight: 600; margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05);">3. Final Evaluation Shortcut (Universe min[...]</p>
                 </div>
             </div>
 
@@ -534,6 +563,8 @@
             <div class="nav-actions">
                 <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)" disabled><i class="fa-solid fa-chevron-left"></i></button>
                 <button class="nav-btn" id="next-btn" onclick="changeSlide(1)"><i class="fa-solid fa-chevron-right"></i></button>
+                <!-- Close button next to navigation -->
+                <button class="nav-btn close-btn" id="close-nav" onclick="closePresentation()"><i class="fa-solid fa-xmark"></i></button>
             </div>
         </div>
 
@@ -577,7 +608,7 @@
                 badgeIndicator.textContent = "System Lock Active";
                 
                 const daysLeft = Math.ceil((TARGET_RELEASE_DATE - today) / (1000 * 60 * 60 * 24));
-                lockStatusText.innerHTML = `Automated unlocking scheduled to activate in <strong>${daysLeft} days</strong> (${TARGET_RELEASE_DATE.toLocaleDateString()}). Enter admin bypass code below to proceed early.`;
+                lockStatusText.innerHTML = `Automated unlocking scheduled to activate in <strong>${daysLeft} days</strong> (${TARGET_RELEASE_DATE.toLocaleDateString()}). Enter admin bypass code b[...]`;
             }
         }
 
@@ -618,6 +649,12 @@
         function changeSlide(direction) {
             currentSlideIndex += direction;
             updateDeckUI();
+        }
+
+        // Close presentation and return to index.html
+        function closePresentation() {
+            // If this page is inside a subpath, this will navigate relative to the current location.
+            window.location.href = 'index.html';
         }
 
         passInput.addEventListener('keydown', (e) => {
