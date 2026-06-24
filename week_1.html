@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMC Academy - Week 1: The 'Not' Strategy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg: #05070f;
+            --surface: #0b0e1a;
+            --surface-card: #12172a;
+            --coral: #ff3b6f;
+            --amber: #ffaa2b;
+            --text-main: #f8fafc;
+            --text-muted: #64748b;
+            --border: rgba(255, 59, 111, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #02040a;
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Container Engine Wrapper */
+        .workspace-hub {
+            position: relative;
+            width: 90vw;
+            max-width: 1100px;
+            aspect-ratio: 16 / 9;
+            background-color: var(--bg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Top Bar Navigation Dashboard */
+        .deck-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 32px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(11, 14, 26, 0.5);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+
+        .academy-brand {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 14px;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+        }
+
+        .academy-brand span {
+            color: var(--coral);
+        }
+
+        .status-badge {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .status-badge.locked {
+            background: rgba(255, 170, 43, 0.1);
+            color: var(--amber);
+            border: 1px solid rgba(255, 170, 43, 0.2);
+        }
+
+        .status-badge.unlocked {
+            background: rgba(255, 59, 111, 0.1);
+            color: var(--coral);
+            border: 1px solid rgba(255, 59, 111, 0.2);
+        }
+
+        /* Slide Stage Area */
+        .slide-stage {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.98) translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 40px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide-wrapper.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1) translateY(0);
+        }
+
+        /* Slide Typography Details */
+        .slide-tag {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--amber);
+            font-weight: 800;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+        }
+
+        h2.slide-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -1.5px;
+            margin-bottom: 24px;
+        }
+
+        h2.slide-title span {
+            background: linear-gradient(to right, var(--coral), var(--amber));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-title-giant {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 10px;
+        }
+
+        .narrative-text {
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--text-muted);
+            max-width: 800px;
+        }
+
+        .hero-test-card {
+            background: linear-gradient(135deg, var(--surface), rgba(18, 23, 42, 0.3));
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px 32px;
+            margin-top: 30px;
+            max-width: 850px;
+        }
+
+        .hero-test-card h4 {
+            color: var(--amber);
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .hero-test-card p {
+            font-size: 20px;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .column-card {
+            background: rgba(11, 14, 26, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 28px;
+        }
+
+        .column-card h3 {
+            font-size: 18px;
+            color: var(--amber);
+            margin-bottom: 14px;
+        }
+
+        .column-card.coral-variant h3 { color: var(--coral); }
+
+        .recap-stack { display: flex; flex-direction: column; gap: 16px; }
+        .recap-item { background: var(--surface); border: 1px solid rgba(255,255,255,0.02); border-radius: 12px; padding: 18px 24px; }
+        .recap-question { font-weight: 700; font-size: 16px; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+        .recap-question i { color: var(--coral); }
+        .recap-answer { color: var(--amber); font-size: 15px; padding-left: 24px; }
+        .recap-item.challenge-box { border: 1px dashed rgba(255, 170, 43, 0.3); background: rgba(255, 170, 43, 0.03); }
+
+        .highlight-math-box {
+            background: rgba(255, 59, 111, 0.06);
+            border-left: 3px solid var(--coral);
+            padding: 16px 20px;
+            border-radius: 4px 12px 12px 4px;
+            margin: 15px 0;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* MathML display layout tweaks */
+        math {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-main);
+        }
+        
+        .highlight-math-box math {
+            color: var(--text-main);
+        }
+
+        .timer-matrix { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+        .matrix-card { background: linear-gradient(135deg, var(--surface), rgba(11,14,26,0.2)); border: 1px solid rgba(255,255,255,0.03); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
+        .matrix-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--text-muted); }
+        .matrix-card.l2::before { background: var(--amber); }
+        .matrix-card.l3::before { background: var(--coral); }
+        .matrix-footer { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+
+        /* Lower Navigation Dashboard Wrapper */
+        .deck-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            background: #070912;
+            z-index: 10;
+        }
+
+        .slide-counter {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .slide-counter span { color: var(--text-main); }
+
+        .nav-actions { display: flex; gap: 14px; }
+        .nav-btn {
+            background: var(--surface-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover { background: var(--coral); border-color: var(--coral); box-shadow: 0 0 15px rgba(255, 59, 111, 0.3); }
+        .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; background: var(--surface); border-color: rgba(255, 255, 255, 0.02); box-shadow: none; }
+        .progress-timeline { position: absolute; bottom: 0; left: 0; height: 3px; background: linear-gradient(to right, var(--coral), var(--amber)); width: 0%; transition: width 0.4s ease; }
+
+        /* Gateway Protection Panel Styles */
+        .lockout-blanket {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #04060d;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .lockout-blanket.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.02);
+        }
+
+        .lock-container {
+            text-align: center;
+            max-width: 440px;
+            width: 100%;
+        }
+
+        .lock-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 170, 43, 0.06);
+            border: 1px solid rgba(255, 170, 43, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: var(--amber);
+            margin: 0 auto 24px;
+            box-shadow: 0 0 40px rgba(255, 170, 43, 0.05);
+        }
+
+        .lock-container h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .lock-container p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 28px;
+        }
+
+        .admin-bypass-form {
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 6px;
+            border-radius: 14px;
+            display: flex;
+            gap: 6px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .admin-bypass-form input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            padding: 0 16px;
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+
+        .admin-bypass-form input::placeholder {
+            letter-spacing: normal;
+            color: rgba(248, 250, 252, 0.2);
+        }
+
+        .bypass-submit-btn {
+            background: var(--surface-card);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .bypass-submit-btn:hover {
+            background: var(--amber);
+            border-color: var(--amber);
+            color: #000;
+            box-shadow: 0 0 15px rgba(255, 170, 43, 0.3);
+        }
+
+        .error-hint {
+            color: var(--coral);
+            font-size: 12px;
+            margin-top: 12px;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-hub">
+        
+        <div class="lockout-blanket" id="lock-screen">
+            <div class="lock-container">
+                <div class="lock-icon-wrapper" id="lock-icon-box">
+                    <i class="fa-solid fa-lock" id="lock-icon"></i>
+                </div>
+                <h3>Week 1 Presentation Core</h3>
+                <p id="lock-status-text">This deployment is scheduled to unlock for student sync channels automatically on the official target date.</p>
+                
+                <div class="admin-bypass-form">
+                    <input type="password" id="admin-pass-input" placeholder="Enter teacher bypass code...">
+                    <button class="bypass-submit-btn" onclick="verifyTeacherBypass()">Unlock</button>
+                </div>
+                <div class="error-hint" id="error-message">Invalid Master Key Override Code.</div>
+            </div>
+        </div>
+
+        <div class="deck-topbar">
+            <div class="academy-brand">AMC <span>ACADEMY</span></div>
+            <div class="status-badge locked" id="badge-indicator">System Lock Active</div>
+        </div>
+
+        <div class="slide-stage">
+            
+            <div class="slide-wrapper active">
+                <div class="slide-tag">Competitive Math Logic // Week 1</div>
+                <h2 class="slide-title hero-title-giant">THE 'NOT' <span>STRATEGY</span></h2>
+                <p class="narrative-text">Mastering complementary counting architectures, looking at the "shadow" of a problem layout, and saving massive time on strict limits.</p>
+                <div class="hero-test-card">
+                    <h4>The 10-Second Test</h4>
+                    <p>If you flip a coin 5 times, how many ways can you get <strong>AT LEAST ONE</strong> tail?</p>
+                </div>
+            </div>
+
+            <div class="slide-wrapper">
+                <div class="slide-tag">01 // Session Activation</div>
+                <h2 class="slide-title">Class Intel: <span>2 Truths & A Lie</span></h2>
+                <div class="recap-stack">
+                    <div class="recap-item">
+                        <div class="recap-question"><i class="fa-solid fa-shield"></i> The Rules of Engagement</div>
+                        <div class="recap-answer">Provide 2 interesting facts about your life and 1 believable lie. Let's see who can trick the class!</div>
+                    </div>
+                    <div class="recap-item challenge-box">
+                        <div class="recap-question"><i class="fa-solid fa-circle-nodes"></i> THE COACH'S CHALLENGE</div>
+                        <div class="recap-answer" style="color: var(--text-main);">I'm dropping 3 facts on the board right now. One of them is a clever layout lie. Can you spot it?</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-wrapper">
+                <div class="slide-tag">02 // Baseline Assessment</div>
+                <h2 class="slide-title">Warmup <span>Logic Check</span></h2>
+                <div class="split-grid">
+                    <div class="column-card">
+                        <h3>THE BASIC SET</h3>
+                        <p>You flip a coin 3 times. List every outcome where you get exactly 2 heads.<br><br><strong>Target:</strong> Establishing baseline notation accuracy and manual list building under AMC 8 structural conditions.</p>
+                    </div>
+                    <div class="column-card coral-variant">
+                        <h3>VISUAL COUNTING</h3>
+                        <p>A spider travels strictly along the edges of a 3D cube. How many unique paths can it take from one starting corner to the completely opposite corner?<br><br><strong>Target:</strong> Identifying multi-dimensional geometry traps before applying permutations.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-wrapper">
+                <div class="slide-tag">03 // Objectives Blueprint</div>
+                <h2 class="slide-title">Mission: <span>The 'Not' Strategy</span></h2>
+                <p class="narrative-text" style="font-size: 20px; margin-bottom: 24px; color: var(--text-main);">Topic Core: Complementary Counting</p>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="font-size: 16px; color: var(--coral); font-weight: 600;"><i class="fa-solid fa-circle-chevron-right"></i> Chunk 1: Spotting the 'At Least One' Instant Trigger</div>
+                    <div style="font-size: 16px; color: var(--coral); font-weight: 600;"><i class="fa-solid fa-circle-chevron-right"></i> Chunk 2: Mastering the Subtraction Hack Framework</div>
+                    <div style="font-size: 16px; color: var(--coral); font-weight: 600;"><i class="fa-solid fa-circle-chevron-right"></i> Chunk 3: Saving 2+ Minutes per Target Problem</div>
+                </div>
+            </div>
+
+            <div class="slide-wrapper">
+                <div class="slide-tag">04 // Tactical Theory</div>
+                <h2 class="slide-title">The Principle of <span>Complements</span></h2>
+                <div class="highlight-math-box">
+                    <math><mtext>Winning Cases</mtext><mo>=</mo><mtext>Total Possibilities</mtext><mo>−</mo><mtext>Forbidden Cases</mtext></math>
+                </div>
+                <p class="narrative-text" style="font-size: 15px; margin-top: 15px;">
+                    <strong style="color:var(--amber);">TOTAL:</strong> The raw number of ways to execute an action completely free of rule limitations.<br>
+                    <strong style="color:var(--coral);">FORBIDDEN:</strong> The exact total opposite configuration of what the criteria demands.
+                </p>
+            </div>
+
+            <div class="slide-wrapper">
+                <div class="slide-tag">05 // Core Deep-Dive</div>
+                <h2 class="slide-title">Walking Through <span>The Numbers</span></h2>
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; font-size: 16px; line-height: 1.8;">
+                    <p style="color: var(--amber); margin-bottom: 12px; font-weight: 600;">Problem: How many 3-digit numbers have at least one digit that is a 0?</p>
+                    <p>1. Find Total Universe (Every possible 3-digit number from 100 to 999): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>9</mn><mo>×</mo><mn>10</mn><mo>×</mo><mn>10</mn><mo>=</mo><mn>900</mn></math> choices.</p>
+                    <p style="margin-top: 8px;">2. Find Forbidden Set (Numbers containing absolutely NO zeros at all): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>9</mn><mo>×</mo><mn>9</mn><mo>×</mo><mn>9</mn><mo>=</mo><mn>729</mn></math> choices.</p>
+                    <p style="color: var(--coral); font-weight: 600; margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05);">3. Final Evaluation Shortcut (Universe minus Forbidden Set): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>900</mn><mo>−</mo><mn>729</mn><mo>=</mo><mn>171</mn></math> valid combinations.</p>
+                </div>
+            </div>
+
+            <div class="slide-wrapper">
+                <div class="slide-tag">06 // Strategic Engagement</div>
+                <h2 class="slide-title">Battle Zone: <span>3-Minute Timers</span></h2>
+                <div class="timer-matrix">
+                    <div class="matrix-card">
+                        <h4>LEVEL 1: COIN SIEGE</h4>
+                        <p>A fair coin is flipped sequentially 5 times in a row. What is the total probability that you get at least one tail?</p>
+                        <div class="matrix-footer"><span>3 Min</span><span>Base Rules</span></div>
+                    </div>
+                    <div class="matrix-card l2">
+                        <h4>LEVEL 2: DICE AMBUSH</h4>
+                        <p>Two standard six-sided dice are rolled simultaneously. How many unique outcomes yield a product that is NOT a multiple of 3?</p>
+                        <div class="matrix-footer"><span>3 Min</span><span>Universal Grid</span></div>
+                    </div>
+                    <div class="matrix-card l3">
+                        <h4>LEVEL 3: GRIDLOCK LOCKOUT</h4>
+                        <p>A 4x4 coordinate walking grid contains a construction barrier at the central intersection. How many total direct shortest paths bypass the trap completely?</p>
+                        <div class="matrix-footer"><span>3 Min</span><span>AMC 8 Elite Target</span></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="deck-controls">
+            <div class="slide-counter">SLIDE <span id="current-index">1</span> OF <span id="total-count">7</span></div>
+            <div class="nav-actions">
+                <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)" disabled><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="nav-btn" id="next-btn" onclick="changeSlide(1)"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+
+        <div class="progress-timeline" id="progress-bar"></div>
+    </div>
+
+    <script>
+        // CONFIGURATION PARAMETERS
+        const TARGET_RELEASE_DATE = new Date("2026-07-15T00:00:00"); // Scheduled lock removal date for Week 1
+        const TEACHER_BYPASS_KEY = "AMC8MASTER";                     // Teacher admin passcode
+        
+        // ELEMENT SELECTORS
+        const lockScreen = document.getElementById('lock-screen');
+        const lockIcon = document.getElementById('lock-icon');
+        const lockIconBox = document.getElementById('lock-icon-box');
+        const lockStatusText = document.getElementById('lock-status-text');
+        const passInput = document.getElementById('admin-pass-input');
+        const errMsg = document.getElementById('error-message');
+        const badgeIndicator = document.getElementById('badge-indicator');
+        
+        const slides = document.querySelectorAll('.slide-wrapper');
+        const currentIndexEl = document.getElementById('current-index');
+        const totalCountEl = document.getElementById('total-count');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const progressBar = document.getElementById('progress-bar');
+        
+        let currentSlideIndex = 0;
+        totalCountEl.textContent = slides.length;
+
+        // CALENDAR SYNCHRONIZATION LAUNCH CHECK
+        function evaluateAutoLockStatus() {
+            const today = new Date();
+            
+            if (today >= TARGET_RELEASE_DATE) {
+                lockScreen.classList.add('hidden');
+                badgeIndicator.className = "status-badge unlocked";
+                badgeIndicator.textContent = "Public Sync Active";
+            } else {
+                badgeIndicator.className = "status-badge locked";
+                badgeIndicator.textContent = "System Lock Active";
+                
+                const daysLeft = Math.ceil((TARGET_RELEASE_DATE - today) / (1000 * 60 * 60 * 24));
+                lockStatusText.innerHTML = `Automated unlocking scheduled to activate in <strong>${daysLeft} days</strong> (${TARGET_RELEASE_DATE.toLocaleDateString()}). Enter admin bypass code below to evaluate layout.`;
+            }
+        }
+
+        // BACK-DOOR OVERRIDE VALIDATION ROUTINE
+        function verifyTeacherBypass() {
+            const enteredCode = passInput.value.trim();
+            
+            if (enteredCode === TEACHER_BYPASS_KEY) {
+                errMsg.style.opacity = "0";
+                lockIcon.className = "fa-solid fa-lock-open";
+                lockIconBox.style.borderColor = "var(--coral)";
+                lockIconBox.style.color = "var(--coral)";
+                lockIconBox.style.background = "rgba(255, 59, 111, 0.05)";
+                
+                setTimeout(() => {
+                    lockScreen.classList.add('hidden');
+                    badgeIndicator.className = "status-badge unlocked";
+                    badgeIndicator.textContent = "Bypass Mode Active";
+                }, 600);
+            } else {
+                errMsg.style.opacity = "1";
+                passInput.value = "";
+                passInput.focus();
+            }
+        }
+
+        // DECK NAVIGATION PIPELINE
+        function updateDeckUI() {
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === currentSlideIndex);
+            });
+            currentIndexEl.textContent = currentSlideIndex + 1;
+            prevBtn.disabled = currentSlideIndex === 0;
+            nextBtn.disabled = currentSlideIndex === slides.length - 1;
+            progressBar.style.width = `${(currentSlideIndex / (slides.length - 1)) * 100}%`;
+        }
+
+        function changeSlide(direction) {
+            currentSlideIndex += direction;
+            updateDeckUI();
+        }
+
+        passInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') verifyTeacherBypass();
+        });
+
+        evaluateAutoLockStatus();
+        updateDeckUI();
+    </script>
+</body>
+</html>
