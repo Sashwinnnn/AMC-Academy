@@ -242,7 +242,9 @@
         }
 
         .timer-matrix { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-        .matrix-card { background: linear-gradient(135deg, var(--surface), rgba(11,14,26,0.2)); border: 1px solid rgba(255,255,255,0.03); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
+        .matrix-card { background: linear-gradient(135deg, var(--surface), rgba(11,14,26,0.2)); border: 1px solid rgba(255,255,255,0.03); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; position: relative; }
+        .matrix-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+        .matrix-card p { font-size: 14px; line-height: 1.6; color: var(--text-muted); flex: 1; margin-bottom: 20px; }
         .matrix-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--text-muted); }
         .matrix-card.l2::before { background: var(--amber); }
         .matrix-card.l3::before { background: var(--coral); }
@@ -460,11 +462,11 @@
                 <div class="split-grid">
                     <div class="column-card">
                         <h3>THE BASIC SET</h3>
-                        <p>You flip a coin 3 times. List every outcome where you get exactly 2 heads.<br><br><strong>Target:</strong> Establishing baseline notation accuracy and manual list building under AMC 8 structural conditions.</p>
+                        <p>You flip a coin 3 times. List every outcome where you get exactly 2 heads.<br><br><strong>Target:</strong> Establishing baseline notation accuracy and manual list building u[...]</p>
                     </div>
                     <div class="column-card coral-variant">
                         <h3>VISUAL COUNTING</h3>
-                        <p>A spider travels strictly along the edges of a 3D cube. How many unique paths can it take from one starting corner to the completely opposite corner?<br><br><strong>Target:</strong> Identifying multi-dimensional geometry traps before applying permutations.</p>
+                        <p>A spider travels strictly along the edges of a 3D cube. How many unique paths can it take from one starting corner to the completely opposite corner?<br><br><strong>Target:[...]</strong></p>
                     </div>
                 </div>
             </div>
@@ -497,9 +499,9 @@
                 <h2 class="slide-title">Walking Through <span>The Numbers</span></h2>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; font-size: 16px; line-height: 1.8;">
                     <p style="color: var(--amber); margin-bottom: 12px; font-weight: 600;">Problem: How many 3-digit numbers have at least one digit that is a 0?</p>
-                    <p>1. Find Total Universe (Every possible 3-digit number from 100 to 999): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>9</mn><mo>×</mo><mn>10</mn><mo>×</mo><mn>10</mn><mo>=</mo><mn>900</mn></math> choices.</p>
-                    <p style="margin-top: 8px;">2. Find Forbidden Set (Numbers containing absolutely NO zeros at all): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>9</mn><mo>×</mo><mn>9</mn><mo>×</mo><mn>9</mn><mo>=</mo><mn>729</mn></math> choices.</p>
-                    <p style="color: var(--coral); font-weight: 600; margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05);">3. Final Evaluation Shortcut (Universe minus Forbidden Set): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>900</mn><mo>−</mo><mn>729</mn><mo>=</mo><mn>171</mn></math> valid combinations.</p>
+                    <p>1. Find Total Universe (Every possible 3-digit number from 100 to 999): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>9</mn><mo>×</mo><mn>10</mn><mo>×</mo><mn>10</mn><mo>=</mo><mn>900</mn></math></p>
+                    <p style="margin-top: 8px;">2. Find Forbidden Set (Numbers containing absolutely NO zeros at all): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>9</mn><mo>×</mo><mn>9</mn><mo>×</mo><mn>9</mn><mo>=</mo><mn>729</mn></math></p>
+                    <p style="color: var(--coral); font-weight: 600; margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05);">3. Final Evaluation Shortcut (Universe minus Forbidden): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>900</mn><mo>−</mo><mn>729</mn><mo>=</mo><mn>171</mn></math></p>
                 </div>
             </div>
 
@@ -540,7 +542,7 @@
 
     <script>
         // CONFIGURATION PARAMETERS
-        const TARGET_RELEASE_DATE = new Date("2026-07-15T00:00:00"); // Scheduled lock removal date for Week 1
+        const TARGET_RELEASE_DATE = new Date("2026-09-11T00:00:00"); // Scheduled lock removal date for Week 1
         const TEACHER_BYPASS_KEY = "AMC8MASTER";                     // Teacher admin passcode
         
         // ELEMENT SELECTORS
@@ -575,7 +577,7 @@
                 badgeIndicator.textContent = "System Lock Active";
                 
                 const daysLeft = Math.ceil((TARGET_RELEASE_DATE - today) / (1000 * 60 * 60 * 24));
-                lockStatusText.innerHTML = `Automated unlocking scheduled to activate in <strong>${daysLeft} days</strong> (${TARGET_RELEASE_DATE.toLocaleDateString()}). Enter admin bypass code below to evaluate layout.`;
+                lockStatusText.innerHTML = `Automated unlocking scheduled to activate in <strong>${daysLeft} days</strong> (${TARGET_RELEASE_DATE.toLocaleDateString()}). Enter admin bypass code below to proceed early.`;
             }
         }
 
