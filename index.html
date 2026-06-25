@@ -425,6 +425,18 @@
             color: white;
             text-decoration: none;
             display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .lesson-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 59, 111, 0.3);
+        }
+
+        .drawer-action {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
         }
     </style>
 </head>
@@ -458,16 +470,16 @@
                 <div class="content-cluster">
                     <div class="section-tag">01 // Mathematical Frameworks</div>
                     <h1>We don't rely on raw formulas. We look for <span>patterns</span>.</h1>
-                    <p class="narrative-p">The AMC 8 doesn't just test how fast you can calculate; it rewards deep problem comprehension. We show students how to break down intricate wording into simple, visual properties to isolate the correct answers cleanly.</p>
+                    <p class="narrative-p">The AMC 8 doesn't just test how fast you can calculate; it rewards deep problem comprehension. We show students how to break down intricate wording into elegant problem-solving paths.</p>
                     
                     <div class="scroll-reveal-card">
                         <h3>Strategic Symmetry</h3>
-                        <p style="color: var(--text-muted);">Many complex counting and geometry problems contain hidden balance. By recognizing uniform structures early, you can solve half the problem and accurately scale up your results without making trivial errors.</p>
+                        <p style="color: var(--text-muted);">Many complex counting and geometry problems contain hidden balance. By recognizing uniform structures early, you can solve half the problem before you write anything down.</p>
                     </div>
 
                     <div class="scroll-reveal-card">
                         <h3>Isolating Modular Cycles</h3>
-                        <p style="color: var(--text-muted);">Number theory problems frequently rely on repeating patterns. We teach students to confidently map small repeating cycles to quickly figure out huge exponential remainders under tight exam limits.</p>
+                        <p style="color: var(--text-muted);">Number theory problems frequently rely on repeating patterns. We teach students to confidently map small repeating cycles to quickly find solutions in massive number sets.</p>
                     </div>
                 </div>
             </div>
@@ -499,7 +511,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><div><p>If a problem asks you to count dozens of messy possibilities, don't do it the hard way. Instead, look at the big picture. Find the total number of options, figure out the few "forbidden" ones you don't want, and subtract them. Whenever you spot phrases like "at least one," this trick will save you a ton of time.</p><button class="lesson-btn" onclick="redirectToWeek1(event)">View Week 1 Lesson</button></div></div></div>
+                            <div class="drawer-content"><div class="drawer-inner"><div><p>If a problem asks you to count dozens of messy possibilities, don't do it the hard way. Instead, look at the complement. Count what you DON'T want, then subtract. This single shift in perspective saves you 2+ minutes per problem.</p></div><div class="drawer-action"><button class="lesson-btn" onclick="redirectToWeek(event, 'week_1.html')">Launch</button></div></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -510,7 +522,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>Arranging people or items in a row gets confusing when rules pop up. We will look at how to map out seating plans and codes using slot diagrams. You will learn the exact steps to handle picky restrictions, like when two items refuse to be next to each other or when someone must sit in a specific spot.</p></div></div>
+                            <div class="drawer-content"><div class="drawer-inner"><div><p>Arranging people or items in a row gets confusing when rules pop up. We will look at how to map out seating plans visually, glue restricted items together, and dodge forbidden patterns using subtraction.</p></div><div class="drawer-action"><button class="lesson-btn" onclick="redirectToWeek(event, 'week_2.html')">Launch</button></div></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -521,7 +533,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>When you are picking a team, order does not matter—picking Sam then Alex is the exact same as picking Alex then Sam. We will learn how to easily spot when order is an illusion and how to use simple division to clean out double-counted groups. This makes handshake and committee problems a breeze.</p></div></div>
+                            <div class="drawer-content"><div class="drawer-inner"><p>When you are picking a team, order does not matter—picking Sam then Alex is the exact same as picking Alex then Sam. We'll learn the combination formula and see how it differs from permutations, plus how to avoid the overcounting trap.</p></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -532,7 +544,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>When different groups share members, normal adding causes mistakes. We will use visual maps to break these chaotic overlapping word problems into neat, separate zones. You will learn how to handle double and triple overlaps perfectly so you never accidentally count a student or item twice.</p></div></div>
+                            <div class="drawer-content"><div class="drawer-inner"><p>When different groups share members, normal adding causes mistakes. We will use visual maps to break these challenges down into pieces you can manage, even when three or four sets are overlapping at once.</p></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -543,7 +555,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>Stop making long, exhausting lists to find the factors of a number. We are going to break integers down into their core prime numbers to see exactly how they are built. With a quick exponent shortcut, you will instantly know how many total factors a massive number has without finding them one by one.</p></div></div>
+                            <div class="drawer-content"><div class="drawer-inner"><p>Stop making long, exhausting lists to find the factors of a number. We are going to break integers down into their prime "building blocks," then use that structure to instantly determine divisors, counts, and special properties.</p></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -554,7 +566,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>How do you find the last digit of a giant number like $7^{2026}$ without multiplying forever? You find the heartbeat of the number. Numbers love to repeat themselves in predictable cycles when raised to powers. We will learn to catch these rhythms so you can solve massive remainder problems in seconds.</p></div></div>
+                            <div class="drawer-content"><div class="drawer-inner"><p>How do you find the last digit of a giant number like 7^2026 without multiplying forever? You find the heartbeat—the repeating cycle—and use modular arithmetic as your speedboat through impossible-looking exponents.</p></div></div>
                         </div>
                     </div>
                 </div>
@@ -584,7 +596,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>When clocks, alarms, or racing cars start at different times, finding out when they line up seems chaotic. We will use Least Common Multiples to pinpoint exact match-up moments. Plus, we will learn secret shortcuts for numbers like 3, 9, and 11 to check for divisibility without long division.</p></div></div>
+                            <div class="drawer-content"><div class="drawer-inner"><p>When clocks, alarms, or racing cars start at different times, finding out when they line up seems chaotic. We'll harness LCM (Least Common Multiple) as your synchronization engine to solve these problems instantly.</p></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -595,7 +607,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>Adding up a massive string of numbers one by one is a trap designed to waste your time. We will use a beautiful balancing trick to pair up the first and last numbers of a sequence. This collapses huge lists of numbers up to 1,000 into a simple, single multiplication step that takes five seconds.</p></div></div>
+                            <div class="drawer-content"><div class="drawer-inner"><p>Adding up a massive string of numbers one by one is a trap designed to waste your time. We will use beautiful symmetry principles to collapse huge sequences into simple one-step calculations.</p></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -604,9 +616,9 @@
                                     <h4>W09 // Relative Speed: Closing the Gap</h4>
                                     <p>Dynamic Velocity Systems & Chases</p>
                                 </div>
-                                <div class="strip-icon"><i class="fa-solid fa-plus) "></i></div>
+                                <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>Instead of stressed-out tracking of two different moving objects at the same time, just freeze one of them in place! By looking at how fast the gap between them closes or opens, we turn confusing head-to-head races and round-trips into basic, quick distance math while avoiding sneaky speed traps.</p></div></div>
+                            <div class="drawer-content"><div class="drawer-inner"><p>Instead of stressed-out tracking of two different moving objects at the same time, just freeze one of them in your mind. Transform the problem into a single-reference frame and solve it instantly.</p></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -617,7 +629,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>When things are changing fast—water evaporating from a pool, ingredients mixing, or groups swapping members—look for the one thing that stays exactly the same. Locking onto this hidden anchor lets you build simple, perfectly balanced equations that bypass pages of ugly algebra.</p></div></div>
+                            <div class="drawer-content"><div class="drawer-inner"><p>When things are changing fast—water evaporating from a pool, ingredients mixing, or groups swapping members—some quantities stay locked in place. Identify that anchor and the whole problem unfolds.</p></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -628,7 +640,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>Don't panic when you see a strange, jagged, irregular shape on the test. If you don't know a formula for it, just draw a clean rectangle around it! We will learn how to calculate the easy outer shapes and cut them away from the main box to leave you with the exact shaded answer you need.</p></div></div>
+                            <div class="drawer-content"><div class="drawer-inner"><p>Don't panic when you see a strange, jagged, irregular shape on the test. If you don't know a formula for it, just box it in and work piece by piece. Decomposition is your silent killer move.</p></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -639,7 +651,7 @@
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>Knowing the math doesn't matter if you run out of time or freeze up under pressure. In our final week, we learn test-taking strategy. You will practice how to sort through the hardest endgame questions, when to skip, how to make smart guesses, and how to protect your score when the clock is ticking down.</p></div></div>
+                            <div class="drawer-content"><div class="drawer-inner"><p>Knowing the math doesn't matter if you run out of time or freeze up under pressure. In our final week, we learn how to think like a pilot in turbulence: triage ruthlessly, execute precisely, never panic.</p></div></div>
                         </div>
                     </div>
                 </div>
@@ -649,20 +661,20 @@
         <section id="curator">
             <div class="content-cluster" style="width: 100%;">
                 <div class="section-tag">03 // The Instructor Desk</div>
-                <h2>Hi there, let's look at the logic together. This tutoring is <span style="background: none; -webkit-text-fill-color: var(--coral); text-transform: uppercase; font-weight: 800; letter-spacing: 1px;">100% FREE</span></h2>
+                <h2>Hi there, let's look at the logic together. This tutoring is <span style="background: none; -webkit-text-fill-color: var(--coral); text-transform: uppercase; font-weight: 800;">personalized</span>.</h2>
                 
                 <div class="profile-matrix">
                     <div class="profile-wrapper">
                         <img src="https://lh3.googleusercontent.com/d/1Msueoy-ns-B7q7OGC78yYuiSLMCyZEKA" alt="Instructor Profile Analysis Frame">                    </div>
                     <div class="bio-cluster">
                         <h3>Behind the Materials</h3>
-                        <p>I know how exhausting it can be to stare at dry textbook formulas that make simple concepts look incredibly intimidating. Math shouldn't feel like endless memorization under pressure—it's really about learning to spot patterns and enjoying the process of breaking down a problem.</p>
-                        <p>My goal is to share the visual strategies and problem-solving shortcuts that clicked for me, helping middle school students approach every question with total confidence and zero math anxiety.</p>
+                        <p>I know how exhausting it can be to stare at dry textbook formulas that make simple concepts look incredibly intimidating. Math shouldn't feel like endless memorization—it should feel like seeing a hidden door you never knew was there.</p>
+                        <p>My goal is to share the visual strategies and problem-solving shortcuts that clicked for me, helping middle school students approach every question with total confidence and speed.</p>
                         
                         <div class="metrics-grid">
                             <div class="metric-row"><i class="fa-solid fa-user-graduate"></i><span><strong>Current Status:</strong> 11th Grader at ECHS</span></div>
                             <div class="metric-row"><i class="fa-solid fa-shapes"></i><span><strong>Favorite Focus Areas:</strong> Combinatorics, Number Theory, and Creative Geometry Layouts</span></div>
-                            <div class="metric-row"><i class="fa-solid fa-heart"></i><span><strong>Our Main Goal:</strong> A <strong style="color: var(--coral); text-transform: uppercase; letter-spacing: 0.5px;">free</strong>, community-focused initiative to make competition math approachable for everyone.</span></div>
+                            <div class="metric-row"><i class="fa-solid fa-heart"></i><span><strong>Our Main Goal:</strong> A <strong style="color: var(--coral); text-transform: uppercase; letter-spacing: 1px;">perfect or near-perfect AMC 8 score</strong> through pattern recognition, not panic.</span></div>
                         </div>
                     </div>
                 </div>
@@ -749,9 +761,9 @@
             }
         }
     
-        function redirectToWeek1(event) {
+        function redirectToWeek(event, weekFile) {
             event.stopPropagation();
-            window.location.href = 'week_1.html';
+            window.location.href = weekFile;
         }
     </script>
 </body>
