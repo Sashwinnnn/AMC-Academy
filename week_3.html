@@ -37,7 +37,7 @@
             align-items: center;
             padding: 20px;
             opacity: 1;
-            transition: opacity 0.3s ease; /* Seamless fade away transition on close click */
+            transition: opacity 0.3s ease;
         }
 
         /* Container Engine Wrapper */
@@ -466,95 +466,84 @@
             <div class="slide-wrapper active">
                 <div class="slide-tag">Competitive Math Logic // Week 3</div>
                 <h2 class="slide-title hero-title-giant">GRID PATHWAYS & <span>OVERLAPS</span></h2>
-                <p class="narrative-text">Mastering permutations with repetition, building vertex-addition networks, mapping mid-route checkpoint systems, and handling grid matrix barriers cleanly.</p>
+                <p class="narrative-text">Mastering permutations with repetition, building vertex-addition networks, and calculating shortest-path trajectories across complex grid matrices.</p>
                 <div class="hero-test-card">
                     <h4>The 10-Second Test</h4>
-                    <p>An ant wants to travel from the bottom-left to the top-right corner of a 4×4 grid. If it can only move <strong>UP</strong> and <strong>RIGHT</strong>, how many direct shortest paths exist?</p>
+                    <p>An ant moves from (0,0) to (4,4) on a coordinate grid. If it only moves <strong>UP</strong> and <strong>RIGHT</strong>, how many direct routes are possible?</p>
                 </div>
             </div>
 
             <div class="slide-wrapper">
                 <div class="slide-tag">01 // Session Activation</div>
-                <h2 class="slide-title">Last Week Recap: <span>Slot & Glue Rules</span></h2>
+                <h2 class="slide-title">Concept Recap: <span>The Glue Strategy</span></h2>
                 <div class="recap-stack">
                     <div class="recap-item">
-                        <div class="recap-question"><i class="fa-solid fa-link"></i> The Binding Mechanism</div>
-                        <div class="recap-answer">Treat items forced together as a single compound bundle element, calculate raw universe variants, then multiply by internal transpose layouts.</div>
+                        <div class="recap-question"><i class="fa-solid fa-link"></i> Grouping Constraints</div>
+                        <div class="recap-answer">When items must stay together, treat them as a single compound object. Remember to account for the internal shuffles of that group.</div>
                     </div>
                     <div class="recap-item challenge-box">
-                        <div class="recap-question"><i class="fa-solid fa-ban"></i> THE LOCKOUT DEFENSE</div>
-                        <div class="recap-answer" style="color: var(--text-main);">When components refuse layout proximity, drop complex lists and immediately subtract the total number of <strong style="color: var(--amber);">forbidden adjacent configurations</strong> from the global structural universe.</div>
+                        <div class="recap-question"><i class="fa-solid fa-ban"></i> THE REVERSAL HACK</div>
+                        <div class="recap-answer" style="color: var(--text-main);">In complex row constraints, calculate the "Forbidden Cases" and subtract them from the Total Universe to find your winning solution.</div>
                     </div>
                 </div>
             </div>
 
             <div class="slide-wrapper">
-                <div class="slide-tag">02 // Baseline Assessment</div>
-                <h2 class="slide-title">Warmup <span>Logic Check</span></h2>
+                <div class="slide-tag">02 // The Coordinate Logic</div>
+                <h2 class="slide-title">Paths as <span>Letter Words</span></h2>
                 <div class="split-grid">
                     <div class="column-card">
-                        <h3>THE PASCAL METHOD</h3>
-                        <p>Write a "1" at the start node. For every subsequent street corner intersection vertex, add up the pathways directly feeding into it from below and from the left.<br><br><strong>Target:</strong> Gaining manual grid arithmetic agility when maps are irregular.</p>
+                        <h3>MAPPING MOVES</h3>
+                        <p>To go from (0,0) to (3,2), you must move Right 3 times (R) and Up 2 times (U). This forms a "word" like <strong>RRRUU</strong> or <strong>URRUR</strong>.</p>
                     </div>
                     <div class="column-card coral-variant">
                         <h3>THE REPETITION RULE</h3>
-                        <p>When rearranging character patterns with multiple duplicate items, divide out the sub-permutations of those matching copies to cancel duplicate layouts.<br><br><strong>Target:</strong> Connecting string arrangements to coordinate steps.</p>
+                        <p>Because the moves are identical, we use Permutations with Repetition. Total move sequences define every possible shortest path.</p>
                     </div>
                 </div>
             </div>
 
             <div class="slide-wrapper">
-                <div class="slide-tag">03 // Objectives Blueprint</div>
-                <h2 class="slide-title">Mission: <span>Grid Pathways</span></h2>
-                <p class="narrative-text" style="font-size: 20px; margin-bottom: 24px; color: var(--text-main);">Topic Core: Permutations with Repetition</p>
-                <div style="display: flex; flex-direction: column; gap: 12px;">
-                    <div style="font-size: 16px; color: var(--coral); font-weight: 600;"><i class="fa-solid fa-circle-chevron-right"></i> Chunk 1: Translating Street Tracks into Letter Words (R and U)</div>
-                    <div style="font-size: 16px; color: var(--coral); font-weight: 600;"><i class="fa-solid fa-circle-chevron-right"></i> Chunk 2: Splitting Multipoint Routes via Checkpoint Multiplication</div>
-                    <div style="font-size: 16px; color: var(--coral); font-weight: 600;"><i class="fa-solid fa-circle-chevron-right"></i> Chunk 3: Overriding Destroyed Nodes and Broken Grid Blocks</div>
-                </div>
-            </div>
-
-            <div class="slide-wrapper">
-                <div class="slide-tag">04 // Tactical Theory</div>
+                <div class="slide-tag">03 // Tactical Theory</div>
                 <h2 class="slide-title">The Principle of <span>Grid Steps</span></h2>
                 <div class="highlight-math-box">
-                    <math><mtext>Total Shortest Routes</mtext><mo>=</mo><mfrac><mrow><mo>(</mo><mtext>Right Steps</mtext><mo>+</mo><mtext>Up Steps</mtext><mo>)</mo><mo>!</mo></mrow><mrow><mtext>Right Steps</mtext><mo>!</mo><mo>×</mo><mtext>Up Steps</mtext><mo>!</mo></mrow></mfrac></math>
+                    <math><mtext>Total Routes</mtext><mo>=</mo><mfrac><mrow><mo>(</mo><mtext>Right Steps</mtext><mo>+</mo><mtext>Up Steps</mtext><mo>)</mo><mo>!</mo></mrow><mrow><mtext>Right Steps</mtext><mo>!</mo><mo>×</mo><mtext>Up Steps</mtext><mo>!</mo></mrow></mfrac></math>
                 </div>
                 <p class="narrative-text" style="font-size: 15px; margin-top: 15px;">
-                    <strong style="color:var(--amber);">WORD REPRESENTATION:</strong> Moving right $R$ times and up $U$ times maps directly to structural word combinations of length $R+U$.<br>
-                    <strong style="color:var(--coral);">CHECKPOINT MULTIPLICATION:</strong> If forced through an intersection town $M$, calculate $\text{Start} \to M$ and $M \to \text{Finish}$ separately, then multiply them together.
+                    <strong style="color:var(--amber);">FACTORIALS:</strong> Use this formula to instantly find the count of arrangements without drawing every single line.<br>
+                    <strong style="color:var(--coral);">CHECKPOINTS:</strong> If you must visit Point M, calculate <strong>Start to M</strong> and <strong>M to Finish</strong>, then multiply the results.
                 </p>
             </div>
 
             <div class="slide-wrapper">
-                <div class="slide-tag">05 // Core Deep-Dive</div>
-                <h2 class="slide-title">Walking Through <span>The Checkpoints</span></h2>
+                <div class="slide-tag">04 // Core Deep-Dive</div>
+                <h2 class="slide-title">Walking Through <span>Multi-Steps</span></h2>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; font-size: 16px; line-height: 1.8;">
-                    <p style="color: var(--amber); margin-bottom: 12px; font-weight: 600;">Problem: 4×3 Grid from (0,0) to (4,3), forced through point (2,1).</p>
-                    <p>1. Target Segment A (Start to Checkpoint): Needs 2 Right, 1 Up. Total 3 moves: <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mfrac><mrow><mn>3</mn><mo>!</mo></mrow><mrow><mn>2</mn><mo>!</mo><mo>×</mo><mn>1</mn><mo>!</mo></mrow></mfrac><mo>=</mo><mn>3</mn><mtext> ways</mtext></math></p>
-                    <p style="margin-top: 8px;">2. Target Segment B (Checkpoint to Finish): Needs 2 Right, 2 Up. Total 4 moves: <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mfrac><mrow><mn>4</mn><mo>!</mo></mrow><mrow><mn>2</mn><mo>!</mo><mo>×</mo><mn>2</mn><mo>!</mo></mrow></mfrac><mo>=</mo><mn>6</mn><mtext> ways</mtext></math></p>
-                    <p style="color: var(--coral); font-weight: 600; margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05);">3. Compound Matrix Multiplication (Segment A × Segment B): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>3</mn><mo>×</mo><mn>6</mn><mo>=</mo><mn>18</mn><mtext> total solutions.</mtext></math></p>
+                    <p style="color: var(--amber); margin-bottom: 12px; font-weight: 600;">Problem: 4×3 Grid from (0,0) to (4,3), forced through Point (2,1).</p>
+                    <p>1. Start to Checkpoint (2 Right, 1 Up): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mfrac><mrow><mn>3</mn><mo>!</mo></mrow><mrow><mn>2</mn><mo>!</mo><mo>×</mo><mn>1</mn><mo>!</mo></mrow></mfrac><mo>=</mo><mn>3</mn><mtext> ways</mtext></math></p>
+                    <p style="margin-top: 8px;">2. Checkpoint to Finish (2 Right, 2 Up): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mfrac><mrow><mn>4</mn><mo>!</mo></mrow><mrow><mn>2</mn><mo>!</mo><mo>×</mo><mn>2</mn><mo>!</mo></mrow></mfrac><mo>=</mo><mn>6</mn><mtext> ways</mtext></math></p>
+                    <p style="color: var(--coral); font-weight: 600; margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05);">3. Total Pathways (3 × 6): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>18</mn><mtext> total unique routes.</mtext></math></p>
                 </div>
             </div>
 
             <div class="slide-wrapper">
-                <div class="slide-tag">06 // Strategic Engagement</div>
+                <div class="slide-tag">05 // Strategic Engagement</div>
                 <h2 class="slide-title">Battle Zone: <span>3-Minute Timers</span></h2>
                 <div class="timer-matrix">
                     <div class="matrix-card">
-                        <h4>LEVEL 1: BLOCKED BRIDGE</h4>
-                        <p>A 3×3 grid map has its absolute center vertex intersection completely blocked by heavy road construction. How many pristine paths remain?</p>
-                        <div class="matrix-footer"><span>3 Min</span><span>Node Deletion</span></div>
+                        <h4>LEVEL 1: BLOCKED INTERSECTION</h4>
+                        <p>A 3×3 grid map has its center vertex intersection completely blocked. How many paths remain from (0,0) to (3,3)?</p>
+                        <div class="matrix-footer"><span>3 Min</span><span>Node Removal</span></div>
                     </div>
                     <div class="matrix-card l2">
                         <h4>LEVEL 2: TOWNSHIP TRANSIT</h4>
-                        <p>Traverse across a larger 5×3 municipal street map layout, but you are required to stop at a specific coordinate scenic checkpoint located exactly at (3,2).</p>
-                        <div class="matrix-footer"><span>3 Min</span><span>Split Product</span></div>
+                        <p>Calculate shortest paths across a 5×3 street layout, requiring a stop at a scenic point located exactly at (3,2).</p>
+                        <div class="matrix-footer"><span>3 Min</span><span>Product Rule</span></div>
                     </div>
                     <div class="matrix-card l3">
-                        <h4>LEVEL 3: 3D GRID ESCAPE</h4>
-                        <p>An exotic insect climbs along a structural 2×2×2 wire frame cube. It only tracks Forward, Up, or Right. Find the total distinct shortest path arrays.</p>
-                        <div class="matrix-footer"><span>3 Min</span><span>Multi-set AMC 8</span></div>
+                        <h4>LEVEL 3: 3D COORDINATES</h4>
+                        <p>A spider moves along the edges of a 2×2×2 cube from (0,0,0) to (2,2,2). It only moves Forward, Up, or Right.</p>
+                        <div class="matrix-footer"><span>3 Min</span><span>AMC 8 Logic</span></div>
                     </div>
                 </div>
             </div>
@@ -562,7 +551,7 @@
         </div>
 
         <div class="deck-controls">
-            <div class="slide-counter">SLIDE <span id="current-index">1</span> OF <span id="total-count">7</span></div>
+            <div class="slide-counter">SLIDE <span id="current-index">1</span> OF <span id="total-count">6</span></div>
             <div class="nav-actions">
                 <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)" disabled><i class="fa-solid fa-chevron-left"></i></button>
                 <button class="nav-btn" id="next-btn" onclick="changeSlide(1)"><i class="fa-solid fa-chevron-right"></i></button>
@@ -574,9 +563,9 @@
     </div>
 
     <script>
-// CONFIGURATION PARAMETERS (Exactly 14 days after Week 1)
-const TARGET_RELEASE_DATE = new Date("2026-09-25T00:00:00"); 
-const TEACHER_BYPASS_KEY = "AMC8MASTER";                     
+        // CONFIGURATION PARAMETERS (Exactly 14 days after Week 1 launch)
+        const TARGET_RELEASE_DATE = new Date("2026-09-25T00:00:00"); 
+        const TEACHER_BYPASS_KEY = "AMC8MASTER";                     
         
         // ELEMENT SELECTORS
         const lockScreen = document.getElementById('lock-screen');
@@ -597,7 +586,6 @@ const TEACHER_BYPASS_KEY = "AMC8MASTER";
         let currentSlideIndex = 0;
         totalCountEl.textContent = slides.length;
 
-        // CALENDAR SYNCHRONIZATION LAUNCH CHECK
         function evaluateAutoLockStatus() {
             const today = new Date();
             
@@ -614,7 +602,6 @@ const TEACHER_BYPASS_KEY = "AMC8MASTER";
             }
         }
 
-        // BACK-DOOR OVERRIDE VALIDATION ROUTINE
         function verifyTeacherBypass() {
             const enteredCode = passInput.value.trim();
             
@@ -637,7 +624,6 @@ const TEACHER_BYPASS_KEY = "AMC8MASTER";
             }
         }
 
-        // DECK NAVIGATION PIPELINE
         function updateDeckUI() {
             slides.forEach((slide, idx) => {
                 slide.classList.toggle('active', idx === currentSlideIndex);
@@ -653,7 +639,6 @@ const TEACHER_BYPASS_KEY = "AMC8MASTER";
             updateDeckUI();
         }
 
-        // Standardized cross-module routing targets to return safely to your course directory
         function closePresentation() {
             document.body.style.opacity = "0";
             setTimeout(() => {
