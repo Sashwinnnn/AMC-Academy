@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMC Academy - Week 3: Grid Pathways & Overlaps</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg: #05070f;
+            --surface: #0b0e1a;
+            --surface-card: #12172a;
+            --coral: #ff3b6f;
+            --amber: #ffaa2b;
+            --text-main: #f8fafc;
+            --text-muted: #64748b;
+            --border: rgba(255, 59, 111, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #02040a;
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 1;
+            transition: opacity 0.3s ease; /* Seamless fade away transition on close click */
+        }
+
+        /* Container Engine Wrapper */
+        .workspace-hub {
+            position: relative;
+            width: 90vw;
+            max-width: 1100px;
+            aspect-ratio: 16 / 9;
+            background-color: var(--bg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Top Bar Navigation Dashboard */
+        .deck-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 32px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(11, 14, 26, 0.5);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+
+        .academy-brand {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 14px;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+        }
+
+        .academy-brand span {
+            color: var(--coral);
+        }
+
+        .status-badge {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .status-badge.locked {
+            background: rgba(255, 170, 43, 0.1);
+            color: var(--amber);
+            border: 1px solid rgba(255, 170, 43, 0.2);
+        }
+
+        .status-badge.unlocked {
+            background: rgba(255, 59, 111, 0.1);
+            color: var(--coral);
+            border: 1px solid rgba(255, 59, 111, 0.2);
+        }
+
+        /* Slide Stage Area */
+        .slide-stage {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.98) translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 40px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide-wrapper.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1) translateY(0);
+        }
+
+        /* Slide Typography Details */
+        .slide-tag {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--amber);
+            font-weight: 800;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+        }
+
+        h2.slide-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -1.5px;
+            margin-bottom: 24px;
+        }
+
+        h2.slide-title span {
+            background: linear-gradient(to right, var(--coral), var(--amber));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-title-giant {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 10px;
+        }
+
+        .narrative-text {
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--text-muted);
+            max-width: 800px;
+        }
+
+        .hero-test-card {
+            background: linear-gradient(135deg, var(--surface), rgba(18, 23, 42, 0.3));
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px 32px;
+            margin-top: 30px;
+            max-width: 850px;
+        }
+
+        .hero-test-card h4 {
+            color: var(--amber);
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .hero-test-card p {
+            font-size: 20px;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .column-card {
+            background: rgba(11, 14, 26, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 28px;
+        }
+
+        .column-card h3 {
+            font-size: 18px;
+            color: var(--amber);
+            margin-bottom: 14px;
+        }
+
+        .column-card.coral-variant h3 { color: var(--coral); }
+
+        .recap-stack { display: flex; flex-direction: column; gap: 16px; }
+        .recap-item { background: var(--surface); border: 1px solid rgba(255,255,255,0.02); border-radius: 12px; padding: 18px 24px; }
+        .recap-question { font-weight: 700; font-size: 16px; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+        .recap-question i { color: var(--coral); }
+        .recap-answer { color: var(--amber); font-size: 15px; padding-left: 24px; }
+        .recap-item.challenge-box { border: 1px dashed rgba(255, 170, 43, 0.3); background: rgba(255, 170, 43, 0.03); }
+
+        .highlight-math-box {
+            background: rgba(255, 59, 111, 0.06);
+            border-left: 3px solid var(--coral);
+            padding: 16px 20px;
+            border-radius: 4px 12px 12px 4px;
+            margin: 15px 0;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        math {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-main);
+        }
+        
+        .highlight-math-box math {
+            color: var(--text-main);
+        }
+
+        .timer-matrix { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+        .matrix-card { background: linear-gradient(135deg, var(--surface), rgba(11,14,26,0.2)); border: 1px solid rgba(255,255,255,0.03); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; position: relative; }
+        .matrix-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+        .matrix-card p { font-size: 14px; line-height: 1.6; color: var(--text-muted); flex: 1; margin-bottom: 20px; }
+        .matrix-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--text-muted); }
+        .matrix-card.l2::before { background: var(--amber); }
+        .matrix-card.l3::before { background: var(--coral); }
+        .matrix-footer { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+
+        /* Lower Navigation Dashboard Wrapper */
+        .deck-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            background: #070912;
+            z-index: 10;
+        }
+
+        .slide-counter {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .slide-counter span { color: var(--text-main); }
+
+        .nav-actions { display: flex; gap: 14px; }
+        .nav-btn {
+            background: var(--surface-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover { background: var(--coral); border-color: var(--coral); box-shadow: 0 0 15px rgba(255, 59, 111, 0.3); }
+        .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; background: var(--surface); border-color: rgba(255, 255, 255, 0.02); box-shadow: none; }
+        
+        .progress-timeline { position: absolute; bottom: 0; left: 0; height: 3px; background: linear-gradient(to right, var(--coral), var(--amber)); width: 0%; transition: width 0.4s ease; }
+
+        /* Gateway Protection Panel Styles */
+        .lockout-blanket {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #04060d;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .lockout-blanket.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.02);
+        }
+
+        .lock-container {
+            text-align: center;
+            max-width: 440px;
+            width: 100%;
+        }
+
+        .lock-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 170, 43, 0.06);
+            border: 1px solid rgba(255, 170, 43, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: var(--amber);
+            margin: 0 auto 24px;
+            box-shadow: 0 0 40px rgba(255, 170, 43, 0.05);
+        }
+
+        .lock-container h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .lock-container p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 28px;
+        }
+
+        .admin-bypass-form {
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 6px;
+            border-radius: 14px;
+            display: flex;
+            gap: 6px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .admin-bypass-form input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            padding: 0 16px;
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+
+        .admin-bypass-form input::placeholder {
+            letter-spacing: normal;
+            color: rgba(248, 250, 252, 0.2);
+        }
+
+        .bypass-submit-btn {
+            background: var(--surface-card);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .bypass-submit-btn:hover {
+            background: var(--amber);
+            border-color: var(--amber);
+            color: #000;
+            box-shadow: 0 0 15px rgba(255, 170, 43, 0.3);
+        }
+
+        .error-hint {
+            color: var(--coral);
+            font-size: 12px;
+            margin-top: 12px;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        /* Floating Close Button Style Mapping */
+        .close-x {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: rgba(248, 250, 252, 0.7);
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 200;
+            transition: all 0.2s ease;
+            font-size: 22px;
+        }
+
+        .close-x:hover { 
+            background: var(--coral);
+            border-color: var(--coral);
+            color: var(--text-main);
+            box-shadow: 0 0 20px rgba(255, 59, 111, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <button id="close-x" class="close-x" aria-label="Close presentation" onclick="closePresentation()" title="Return to Archive Matrix">&times;</button>
+    
+    <div class="workspace-hub">
+
+        <div class="lockout-blanket" id="lock-screen">
+            <div class="lock-container">
+                <div class="lock-icon-wrapper" id="lock-icon-box">
+                    <i class="fa-solid fa-lock" id="lock-icon"></i>
+                </div>
+                <h3>Week 3 Presentation Core</h3>
+                <p id="lock-status-text">This deployment is scheduled to unlock for student sync channels automatically on the official target date.</p>
+                
+                <div class="admin-bypass-form">
+                    <input type="password" id="admin-pass-input" placeholder="Enter teacher bypass code...">
+                    <button class="bypass-submit-btn" onclick="verifyTeacherBypass()">Unlock</button>
+                </div>
+                <div class="error-hint" id="error-message">Invalid Master Key Override Code.</div>
+            </div>
+        </div>
+
+        <div class="deck-topbar">
+            <div class="academy-brand">AMC <span>ACADEMY</span></div>
+            <div class="status-badge locked" id="badge-indicator">System Lock Active</div>
+        </div>
+
+        <div class="slide-stage">
+            
+            <div class="slide-wrapper active">
+                <div class="slide-tag">Competitive Math Logic // Week 3</div>
+                <h2 class="slide-title hero-title-giant">GRID PATHWAYS & <span>OVERLAPS</span></h2>
+                <p class="narrative-text">Mastering permutations with repetition, building vertex-addition networks, mapping mid-route checkpoint systems, and handling grid matrix barriers cleanly.</p>
+                <div class="hero-test-card">
+                    <h4>The 10-Second Test</h4>
+                    <p>An ant wants to travel from the bottom-left to the top-right corner of a 4×4 grid. If it can only move <strong>UP</strong> and <strong>RIGHT</strong>, how many direct shortest paths exist?</p>
+                </div>
+            </div>
+
+            <div class="slide-wrapper">
+                <div class="slide-tag">01 // Session Activation</div>
+                <h2 class="slide-title">Last Week Recap: <span>Slot & Glue Rules</span></h2>
+                <div class="recap-stack">
+                    <div class="recap-item">
+                        <div class="recap-question"><i class="fa-solid fa-link"></i> The Binding Mechanism</div>
+                        <div class="recap-answer">Treat items forced together as a single compound bundle element, calculate raw universe variants, then multiply by internal transpose layouts.</div>
+                    </div>
+                    <div class="recap-item challenge-box">
+                        <div class="recap-question"><i class="fa-solid fa-ban"></i> THE LOCKOUT DEFENSE</div>
+                        <div class="recap-answer" style="color: var(--text-main);">When components refuse layout proximity, drop complex lists and immediately subtract the total number of <strong style="color: var(--amber);">forbidden adjacent configurations</strong> from the global structural universe.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-wrapper">
+                <div class="slide-tag">02 // Baseline Assessment</div>
+                <h2 class="slide-title">Warmup <span>Logic Check</span></h2>
+                <div class="split-grid">
+                    <div class="column-card">
+                        <h3>THE PASCAL METHOD</h3>
+                        <p>Write a "1" at the start node. For every subsequent street corner intersection vertex, add up the pathways directly feeding into it from below and from the left.<br><br><strong>Target:</strong> Gaining manual grid arithmetic agility when maps are irregular.</p>
+                    </div>
+                    <div class="column-card coral-variant">
+                        <h3>THE REPETITION RULE</h3>
+                        <p>When rearranging character patterns with multiple duplicate items, divide out the sub-permutations of those matching copies to cancel duplicate layouts.<br><br><strong>Target:</strong> Connecting string arrangements to coordinate steps.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-wrapper">
+                <div class="slide-tag">03 // Objectives Blueprint</div>
+                <h2 class="slide-title">Mission: <span>Grid Pathways</span></h2>
+                <p class="narrative-text" style="font-size: 20px; margin-bottom: 24px; color: var(--text-main);">Topic Core: Permutations with Repetition</p>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="font-size: 16px; color: var(--coral); font-weight: 600;"><i class="fa-solid fa-circle-chevron-right"></i> Chunk 1: Translating Street Tracks into Letter Words (R and U)</div>
+                    <div style="font-size: 16px; color: var(--coral); font-weight: 600;"><i class="fa-solid fa-circle-chevron-right"></i> Chunk 2: Splitting Multipoint Routes via Checkpoint Multiplication</div>
+                    <div style="font-size: 16px; color: var(--coral); font-weight: 600;"><i class="fa-solid fa-circle-chevron-right"></i> Chunk 3: Overriding Destroyed Nodes and Broken Grid Blocks</div>
+                </div>
+            </div>
+
+            <div class="slide-wrapper">
+                <div class="slide-tag">04 // Tactical Theory</div>
+                <h2 class="slide-title">The Principle of <span>Grid Steps</span></h2>
+                <div class="highlight-math-box">
+                    <math><mtext>Total Shortest Routes</mtext><mo>=</mo><mfrac><mrow><mo>(</mo><mtext>Right Steps</mtext><mo>+</mo><mtext>Up Steps</mtext><mo>)</mo><mo>!</mo></mrow><mrow><mtext>Right Steps</mtext><mo>!</mo><mo>×</mo><mtext>Up Steps</mtext><mo>!</mo></mrow></mfrac></math>
+                </div>
+                <p class="narrative-text" style="font-size: 15px; margin-top: 15px;">
+                    <strong style="color:var(--amber);">WORD REPRESENTATION:</strong> Moving right $R$ times and up $U$ times maps directly to structural word combinations of length $R+U$.<br>
+                    <strong style="color:var(--coral);">CHECKPOINT MULTIPLICATION:</strong> If forced through an intersection town $M$, calculate $\text{Start} \to M$ and $M \to \text{Finish}$ separately, then multiply them together.
+                </p>
+            </div>
+
+            <div class="slide-wrapper">
+                <div class="slide-tag">05 // Core Deep-Dive</div>
+                <h2 class="slide-title">Walking Through <span>The Checkpoints</span></h2>
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; font-size: 16px; line-height: 1.8;">
+                    <p style="color: var(--amber); margin-bottom: 12px; font-weight: 600;">Problem: 4×3 Grid from (0,0) to (4,3), forced through point (2,1).</p>
+                    <p>1. Target Segment A (Start to Checkpoint): Needs 2 Right, 1 Up. Total 3 moves: <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mfrac><mrow><mn>3</mn><mo>!</mo></mrow><mrow><mn>2</mn><mo>!</mo><mo>×</mo><mn>1</mn><mo>!</mo></mrow></mfrac><mo>=</mo><mn>3</mn><mtext> ways</mtext></math></p>
+                    <p style="margin-top: 8px;">2. Target Segment B (Checkpoint to Finish): Needs 2 Right, 2 Up. Total 4 moves: <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mfrac><mrow><mn>4</mn><mo>!</mo></mrow><mrow><mn>2</mn><mo>!</mo><mo>×</mo><mn>2</mn><mo>!</mo></mrow></mfrac><mo>=</mo><mn>6</mn><mtext> ways</mtext></math></p>
+                    <p style="color: var(--coral); font-weight: 600; margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05);">3. Compound Matrix Multiplication (Segment A × Segment B): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>3</mn><mo>×</mo><mn>6</mn><mo>=</mo><mn>18</mn><mtext> total solutions.</mtext></math></p>
+                </div>
+            </div>
+
+            <div class="slide-wrapper">
+                <div class="slide-tag">06 // Strategic Engagement</div>
+                <h2 class="slide-title">Battle Zone: <span>3-Minute Timers</span></h2>
+                <div class="timer-matrix">
+                    <div class="matrix-card">
+                        <h4>LEVEL 1: BLOCKED BRIDGE</h4>
+                        <p>A 3×3 grid map has its absolute center vertex intersection completely blocked by heavy road construction. How many pristine paths remain?</p>
+                        <div class="matrix-footer"><span>3 Min</span><span>Node Deletion</span></div>
+                    </div>
+                    <div class="matrix-card l2">
+                        <h4>LEVEL 2: TOWNSHIP TRANSIT</h4>
+                        <p>Traverse across a larger 5×3 municipal street map layout, but you are required to stop at a specific coordinate scenic checkpoint located exactly at (3,2).</p>
+                        <div class="matrix-footer"><span>3 Min</span><span>Split Product</span></div>
+                    </div>
+                    <div class="matrix-card l3">
+                        <h4>LEVEL 3: 3D GRID ESCAPE</h4>
+                        <p>An exotic insect climbs along a structural 2×2×2 wire frame cube. It only tracks Forward, Up, or Right. Find the total distinct shortest path arrays.</p>
+                        <div class="matrix-footer"><span>3 Min</span><span>Multi-set AMC 8</span></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="deck-controls">
+            <div class="slide-counter">SLIDE <span id="current-index">1</span> OF <span id="total-count">7</span></div>
+            <div class="nav-actions">
+                <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)" disabled><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="nav-btn" id="next-btn" onclick="changeSlide(1)"><i class="fa-solid fa-chevron-right"></i></button>
+                <button class="nav-btn" id="close-nav" onclick="closePresentation()" title="Exit Presentation"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+        </div>
+
+        <div class="progress-timeline" id="progress-bar"></div>
+    </div>
+
+    <script>
+// CONFIGURATION PARAMETERS (Exactly 14 days after Week 1)
+const TARGET_RELEASE_DATE = new Date("2026-09-25T00:00:00"); 
+const TEACHER_BYPASS_KEY = "AMC8MASTER";                     
+        
+        // ELEMENT SELECTORS
+        const lockScreen = document.getElementById('lock-screen');
+        const lockIcon = document.getElementById('lock-icon');
+        const lockIconBox = document.getElementById('lock-icon-box');
+        const lockStatusText = document.getElementById('lock-status-text');
+        const passInput = document.getElementById('admin-pass-input');
+        const errMsg = document.getElementById('error-message');
+        const badgeIndicator = document.getElementById('badge-indicator');
+        
+        const slides = document.querySelectorAll('.slide-wrapper');
+        const currentIndexEl = document.getElementById('current-index');
+        const totalCountEl = document.getElementById('total-count');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const progressBar = document.getElementById('progress-bar');
+        
+        let currentSlideIndex = 0;
+        totalCountEl.textContent = slides.length;
+
+        // CALENDAR SYNCHRONIZATION LAUNCH CHECK
+        function evaluateAutoLockStatus() {
+            const today = new Date();
+            
+            if (today >= TARGET_RELEASE_DATE) {
+                lockScreen.classList.add('hidden');
+                badgeIndicator.className = "status-badge unlocked";
+                badgeIndicator.textContent = "Public Sync Active";
+            } else {
+                badgeIndicator.className = "status-badge locked";
+                badgeIndicator.textContent = "System Lock Active";
+                
+                const daysLeft = Math.ceil((TARGET_RELEASE_DATE - today) / (1000 * 60 * 60 * 24));
+                lockStatusText.innerHTML = `Automated unlocking scheduled to activate in <strong>${daysLeft} days</strong> (${TARGET_RELEASE_DATE.toLocaleDateString()}). Enter admin bypass code below to proceed.`;
+            }
+        }
+
+        // BACK-DOOR OVERRIDE VALIDATION ROUTINE
+        function verifyTeacherBypass() {
+            const enteredCode = passInput.value.trim();
+            
+            if (enteredCode === TEACHER_BYPASS_KEY) {
+                errMsg.style.opacity = "0";
+                lockIcon.className = "fa-solid fa-lock-open";
+                lockIconBox.style.borderColor = "var(--coral)";
+                lockIconBox.style.color = "var(--coral)";
+                lockIconBox.style.background = "rgba(255, 59, 111, 0.05)";
+                
+                setTimeout(() => {
+                    lockScreen.classList.add('hidden');
+                    badgeIndicator.className = "status-badge unlocked";
+                    badgeIndicator.textContent = "Bypass Mode Active";
+                }, 600);
+            } else {
+                errMsg.style.opacity = "1";
+                passInput.value = "";
+                passInput.focus();
+            }
+        }
+
+        // DECK NAVIGATION PIPELINE
+        function updateDeckUI() {
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === currentSlideIndex);
+            });
+            currentIndexEl.textContent = currentSlideIndex + 1;
+            prevBtn.disabled = currentSlideIndex === 0;
+            nextBtn.disabled = currentSlideIndex === slides.length - 1;
+            progressBar.style.width = `${(currentSlideIndex / (slides.length - 1)) * 100}%`;
+        }
+
+        function changeSlide(direction) {
+            currentSlideIndex += direction;
+            updateDeckUI();
+        }
+
+        // Standardized cross-module routing targets to return safely to your course directory
+        function closePresentation() {
+            document.body.style.opacity = "0";
+            setTimeout(() => {
+                window.location.href = 'index.html#archive';
+            }, 250);
+        }
+
+        passInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') verifyTeacherBypass();
+        });
+
+        evaluateAutoLockStatus();
+        updateDeckUI();
+    </script>
+</body>
+</html>
