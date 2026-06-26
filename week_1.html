@@ -36,6 +36,8 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
+            opacity: 1;
+            transition: opacity 0.3s ease; /* Seamless fade away transition on close click */
         }
 
         /* Container Engine Wrapper */
@@ -231,7 +233,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* MathML display layout tweaks */
         math {
             font-family: 'Space Grotesk', sans-serif;
             color: var(--text-main);
@@ -404,7 +405,7 @@
             transition: opacity 0.2s ease;
         }
 
-        /* Floating Close Button */
+        /* Floating Close Button Style Mapping */
         .close-x {
             position: fixed;
             top: 30px;
@@ -435,8 +436,7 @@
 </head>
 <body>
 
-    <!-- Floating Close Button -->
-    <button id="close-x" class="close-x" aria-label="Close presentation" onclick="closePresentation()" title="Return to Index">&times;</button>
+    <button id="close-x" class="close-x" aria-label="Close presentation" onclick="closePresentation()" title="Return to Archive Matrix">&times;</button>
     
     <div class="workspace-hub">
 
@@ -531,8 +531,8 @@
                 <h2 class="slide-title">Walking Through <span>The Numbers</span></h2>
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; font-size: 16px; line-height: 1.8;">
                     <p style="color: var(--amber); margin-bottom: 12px; font-weight: 600;">Problem: How many 3-digit numbers have at least one digit that is a 0?</p>
-                    <p>1. Find Total Universe (Every possible 3-digit number from 100 to 999): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>9</mn><mo>×</mo><mn>10</mn><mo>×</mo><mn>10</mn><mo>=</mo><mn>900</mn></math>
-                    <p style="margin-top: 8px;">2. Find Forbidden Set (Numbers containing absolutely NO zeros at all): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>9</mn><mo>×</mo><mn>9</mn><mo>×</mo><mn>9</mn><mo>=</mo><mn>729</mn></math>
+                    <p>1. Find Total Universe (Every possible 3-digit number from 100 to 999): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>9</mn><mo>×</mo><10</mo><mo>×</mo><10</mo><mo>=</mo><mn>900</mn></math></p>
+                    <p style="margin-top: 8px;">2. Find Forbidden Set (Numbers containing absolutely NO zeros at all): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>9</mn><mo>×</mo><mn>9</mn><mo>×</mo><mn>9</mn><mo>=</mo><mn>729</mn></math></p>
                     <p style="color: var(--coral); font-weight: 600; margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05);">3. Final Evaluation Shortcut (Universe minus Forbidden): <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>900</mn><mo>−</mo><mn>729</mn><mo>=</mo><mn>171</mn></math></p>
                 </div>
             </div>
@@ -566,7 +566,7 @@
             <div class="nav-actions">
                 <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)" disabled><i class="fa-solid fa-chevron-left"></i></button>
                 <button class="nav-btn" id="next-btn" onclick="changeSlide(1)"><i class="fa-solid fa-chevron-right"></i></button>
-                <button class="nav-btn" id="close-nav" onclick="closePresentation()"><i class="fa-solid fa-xmark"></i></button>
+                <button class="nav-btn" id="close-nav" onclick="closePresentation()" title="Exit Presentation"><i class="fa-solid fa-xmark"></i></button>
             </div>
         </div>
 
@@ -575,8 +575,8 @@
 
     <script>
         // CONFIGURATION PARAMETERS
-        const TARGET_RELEASE_DATE = new Date("2026-09-11T00:00:00"); // Scheduled lock removal date for Week 1
-        const TEACHER_BYPASS_KEY = "AMC8MASTER";                     // Teacher admin passcode
+        const TARGET_RELEASE_DATE = new Date("2026-09-11T00:00:00"); 
+        const TEACHER_BYPASS_KEY = "AMC8MASTER";                     
         
         // ELEMENT SELECTORS
         const lockScreen = document.getElementById('lock-screen');
@@ -653,9 +653,12 @@
             updateDeckUI();
         }
 
-        // Close presentation and return to index.html
+        // Standardized cross-module routing targets to return safely to your course directory
         function closePresentation() {
-            window.location.href = 'index.html';
+            document.body.style.opacity = "0";
+            setTimeout(() => {
+                window.location.href = 'index.html#archive';
+            }, 250);
         }
 
         passInput.addEventListener('keydown', (e) => {
