@@ -528,12 +528,12 @@
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
                             <div class="strip-layout">
                                 <div class="strip-title">
-                                    <h4>W03 // No Order, No Noise: Grouping Without Duplicates</h4>
-                                    <p>Combinatorics & Overcount Filters</p>
+                                    <h4>W03 // Grid Pathways & Overlaps: Mapping Matrix Fields</h4>
+                                    <p>Permutations with Repetition & Checkpoint Arrays</p>
                                 </div>
                                 <div class="strip-icon"><i class="fa-solid fa-plus"></i></div>
                             </div>
-                            <div class="drawer-content"><div class="drawer-inner"><p>When you are picking a team, order does not matter—picking Sam then Alex is the exact same as picking Alex then Sam. We'll learn the combination formula and see how it differs from permutations, plus how to avoid the overcounting trap.</p></div></div>
+                            <div class="drawer-content"><div class="drawer-inner"><div><p>Street map grids and coordinate trajectories are classic test items. We will drill the math equations for handling pathways containing duplicate letter strings, routing through forced checkpoints, and resolving blocked streets.</p></div><div class="drawer-action"><button class="lesson-btn" onclick="redirectToWeek(event, 'week_3.html')">Launch</button></div></div></div>
                         </div>
 
                         <div class="archive-strip" onclick="toggleArchiveDrawer(this)">
@@ -713,9 +713,47 @@
             return totalOffsetValue - (strictProgress * totalOffsetValue);
         }
 
-        window.addEventListener('scroll', () => {
-            const windowHeight = window.innerHeight;
+        function toggleArchiveDrawer(stripElement) {
+            const currentIsOpen = stripElement.classList.contains('open');
+            
+            // Close all active open strips within layout rules
+            document.querySelectorAll('.archive-strip').forEach(el => {
+                el.classList.remove('open');
+                const drawer = el.querySelector('.drawer-content');
+                if(drawer) drawer.style.maxHeight = null;
+            });
 
+            if (!currentIsOpen) {
+                stripElement.classList.add('open');
+                const targetDrawer = stripElement.querySelector('.drawer-content');
+                if(targetDrawer) {
+                    targetDrawer.style.maxHeight = targetDrawer.scrollHeight + "px";
+                }
+            }
+        }
+
+        function redirectToWeek(event, urlPath) {
+            event.stopPropagation(); // Prevents clicking the launch button from triggering accordion toggles
+            document.body.style.opacity = "0";
+            document.body.style.transition = "opacity 0.25s ease";
+            setTimeout(() => {
+                window.location.href = urlPath;
+            }, 250);
+        }
+
+        // Setup clean intersection triggers for fade-in cards
+        const observerConfig = { threshold: 0.15 };
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, observerConfig);
+
+        revealCards.forEach(card => cardObserver.observe(card));
+
+        window.addEventListener('scroll', () => {
             // ANIMATION 1 VIEWPORT CONTEXT
             const firstSectionScroll = window.scrollY;
             const firstSectionHeight = block1.offsetHeight || 600;
@@ -723,48 +761,15 @@
             path1.style.strokeDashoffset = 1000 - (progress1 * 1000);
 
             // ANIMATION 2 VIEWPORT CONTEXT
-            path2.style.strokeDashoffset = calculatePathProgress(blockA, 1000);
+            if(blockA) {
+                path2.style.strokeDashoffset = calculatePathProgress(blockA, 1000);
+            }
 
             // ANIMATION 3 VIEWPORT CONTEXT
-            path3.style.strokeDashoffset = calculatePathProgress(blockB, 1200);
-
-            // Card Entrance Driver Engine
-            revealCards.forEach(card => {
-                const cardTop = card.getBoundingClientRect().top;
-                if (cardTop < windowHeight * 0.88) {
-                    card.classList.add('revealed');
-                } else {
-                    card.classList.remove('revealed'); 
-                }
-            });
-        });
-
-        // Accordion Controls
-        function toggleArchiveDrawer(element) {
-            const strip = element;
-            const content = strip.querySelector('.drawer-content');
-            
-            // Close all other open drawers
-            document.querySelectorAll('.archive-strip').forEach(item => {
-                if (item !== strip && item.classList.contains('open')) {
-                    item.classList.remove('open');
-                    item.querySelector('.drawer-content').style.maxHeight = null;
-                }
-            });
-
-            if (strip.classList.contains('open')) {
-                strip.classList.remove('open');
-                content.style.maxHeight = null;
-            } else {
-                strip.classList.add('open');
-                content.style.maxHeight = content.scrollHeight + "px";
+            if(blockB) {
+                path3.style.strokeDashoffset = calculatePathProgress(blockB, 1200);
             }
-        }
-    
-        function redirectToWeek(event, weekFile) {
-            event.stopPropagation();
-            window.location.href = weekFile;
-        }
+        });
     </script>
 </body>
 </html>
