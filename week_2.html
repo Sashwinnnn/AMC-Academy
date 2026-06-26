@@ -64,7 +64,7 @@
             font-size: 22px;
             cursor: pointer;
             transition: all 0.2s ease;
-            z-index: 10;
+            z-index: 110;
         }
 
         .close-modal:hover {
@@ -439,7 +439,7 @@
             </div>
         </div>
 
-        <span class="close-modal" onclick="closeWeek2Deck()">
+        <span class="close-modal" onclick="closeWeek2Deck()" title="Exit Presentation">
             <i class="fa-solid fa-xmark"></i>
         </span>
 
@@ -522,7 +522,7 @@
                     <p>1. Find Total Raw Universe Permutations: <math><mn>5</mn><mo>!</mo><mo>=</mo><mn>120</mn></math></p>
                     <p style="margin-top: 4px;">2. Find Forbidden Spaces (Glue 2 items into 1 item block, leaving 4 total units): <math><mn>4</mn><mo>!</mo><mo>×</mo><mn>2</mn><mo>!</mo><mo>=</mo><mn>24</mn><mo>×</mo><mn>2</mn><mo>=</mo><mn>48</mn></math></p>
                     <div class="math-block" style="margin: 8px 0 0 0; font-size: 15px;">
-                        3. Final Solution: <math><mn>120</mn><mo>−</mo><mn>48</mn><mo>=</mo><mn>72</mn></math> valid pathways.
+                        3. Final Solution: <math><120</mn><mo>−</mo><mn>48</mn><mo>=</mo><mn>72</mn></math> valid pathways.
                     </div>
                 </div>
             </div>
@@ -555,13 +555,15 @@
             <div class="nav-actions">
                 <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)" disabled><i class="fa-solid fa-chevron-left"></i></button>
                 <button class="nav-btn" id="next-btn" onclick="changeSlide(1)"><i class="fa-solid fa-chevron-right"></i></button>
+                <button class="nav-btn" id="close-nav" onclick="closeWeek2Deck()" title="Exit Presentation"><i class="fa-solid fa-xmark"></i></button>
             </div>
         </div>
 
     </div>
 
     <script>
-        const TARGET_RELEASE_DATE = new Date("2026-09-11T00:00:00");
+        // Set exactly 1 week after Week 1 (from Sept 11 to Sept 18)
+        const TARGET_RELEASE_DATE = new Date("2026-09-18T00:00:00");
         const TEACHER_BYPASS_KEY = "AMC8MASTER";
         
         const lockScreen = document.getElementById('lock-screen');
@@ -580,9 +582,9 @@
         let currentSlideIndex = 0;
         totalCountEl.textContent = cards.length;
 
-        // INDEX REDIRECT SYSTEM CLOSING TRIGGER MATCHING WEEK 1 MODALS
+        // Redirect mechanism exactly targeting index.html#archives
         function closeWeek2Deck() {
-            window.location.href = "index.html#archive";
+            window.location.href = "index.html#archives";
         }
 
         function evaluateAutoLockStatus() {
