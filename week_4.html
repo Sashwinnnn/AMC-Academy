@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMC Academy - Week 4: The Overlap Map</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;600;700;800&family=Space+Grotesk:wght=400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg: #05070f;
+            --surface: #0b0e1a;
+            --surface-card: #12172a;
+            --coral: #ff3b6f;
+            --amber: #ffaa2b;
+            --text-main: #f8fafc;
+            --text-muted: #64748b;
+            --border: rgba(255, 59, 111, 0.15);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #02040a; color: var(--text-main); font-family: 'Space Grotesk', sans-serif; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; opacity: 1; transition: opacity 0.3s ease; }
+        .workspace-hub { position: relative; width: 90vw; max-width: 1100px; aspect-ratio: 16 / 9; background-color: var(--bg); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8); display: flex; flex-direction: column; overflow: hidden; }
+        .deck-topbar { display: flex; justify-content: space-between; align-items: center; padding: 18px 32px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); background: rgba(11, 14, 26, 0.5); backdrop-filter: blur(10px); z-index: 10; }
+        .academy-brand { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 14px; letter-spacing: 2px; color: var(--text-muted); }
+        .academy-brand span { color: var(--coral); }
+        .status-badge { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1px; padding: 6px 14px; border-radius: 20px; text-transform: uppercase; }
+        .status-badge.locked { background: rgba(255, 170, 43, 0.1); color: var(--amber); border: 1px solid rgba(255, 170, 43, 0.2); }
+        .status-badge.unlocked { background: rgba(255, 59, 111, 0.1); color: var(--coral); border: 1px solid rgba(255, 59, 111, 0.2); }
+        .slide-stage { flex: 1; position: relative; overflow: hidden; }
+        .slide-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; transform: scale(0.98) translateY(10px); transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); padding: 40px 60px; display: flex; flex-direction: column; justify-content: center; }
+        .slide-wrapper.active { opacity: 1; pointer-events: auto; transform: scale(1) translateY(0); }
+        .slide-tag { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--amber); font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 12px; }
+        h2.slide-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 42px; font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 24px; }
+        h2.slide-title span { background: linear-gradient(to right, var(--coral), var(--amber)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-title-giant { font-size: 56px; font-weight: 800; line-height: 1.1; letter-spacing: -2px; margin-bottom: 10px; }
+        .narrative-text { font-size: 18px; line-height: 1.6; color: var(--text-muted); max-width: 800px; }
+        .hero-test-card { background: linear-gradient(135deg, var(--surface), rgba(18, 23, 42, 0.3)); border: 1px solid var(--border); border-radius: 16px; padding: 24px 32px; margin-top: 30px; max-width: 850px; }
+        .hero-test-card h4 { color: var(--amber); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        .hero-test-card p { font-size: 20px; line-height: 1.5; font-weight: 500; }
+        .split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .column-card { background: rgba(11, 14, 26, 0.6); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 16px; padding: 28px; }
+        .column-card h3 { font-size: 18px; color: var(--amber); margin-bottom: 14px; }
+        .column-card.coral-variant h3 { color: var(--coral); }
+        .recap-stack { display: flex; flex-direction: column; gap: 16px; }
+        .recap-item { background: var(--surface); border: 1px solid rgba(255,255,255,0.02); border-radius: 12px; padding: 18px 24px; }
+        .recap-question { font-weight: 700; font-size: 16px; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+        .recap-question i { color: var(--coral); }
+        .recap-answer { color: var(--amber); font-size: 15px; padding-left: 24px; }
+        .recap-item.challenge-box { border: 1px dashed rgba(255, 170, 43, 0.3); background: rgba(255, 170, 43, 0.03); }
+        .highlight-math-box { background: rgba(255, 59, 111, 0.06); border-left: 3px solid var(--coral); padding: 16px 20px; border-radius: 4px 12px 12px 4px; margin: 15px 0; font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
+        math { font-family: 'Space Grotesk', sans-serif; color: var(--text-main); }
+        .timer-matrix { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+        .matrix-card { background: linear-gradient(135deg, var(--surface), rgba(11,14,26,0.2)); border: 1px solid rgba(255,255,255,0.03); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; position: relative; }
+        .matrix-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+        .matrix-card p { font-size: 13px; line-height: 1.5; color: var(--text-muted); flex: 1; margin-bottom: 20px; }
+        .matrix-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--text-muted); }
+        .matrix-card.l2::before { background: var(--amber); }
+        .matrix-card.l3::before { background: var(--coral); }
+        .matrix-footer { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+        .deck-controls { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-top: 1px solid rgba(255, 255, 255, 0.04); background: #070912; z-index: 10; }
+        .slide-counter { font-size: 13px; font-weight: 600; color: var(--text-muted); }
+        .slide-counter span { color: var(--text-main); }
+        .nav-actions { display: flex; gap: 14px; }
+        .nav-btn { background: var(--surface-card); border: 1px solid rgba(255, 255, 255, 0.05); color: var(--text-main); width: 44px; height: 44px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+        .nav-btn:hover { background: var(--coral); border-color: var(--coral); box-shadow: 0 0 15px rgba(255, 59, 111, 0.3); }
+        .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; background: var(--surface); border-color: rgba(255, 255, 255, 0.02); box-shadow: none; }
+        .progress-timeline { position: absolute; bottom: 0; left: 0; height: 3px; background: linear-gradient(to right, var(--coral), var(--amber)); width: 0%; transition: width 0.4s ease; }
+        .lockout-blanket { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #04060d; z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .lockout-blanket.hidden { opacity: 0; pointer-events: none; transform: scale(1.02); }
+        .lock-container { text-align: center; max-width: 440px; width: 100%; }
+        .lock-icon-wrapper { width: 80px; height: 80px; background: rgba(255, 170, 43, 0.06); border: 1px solid rgba(255, 170, 43, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; color: var(--amber); margin: 0 auto 24px; box-shadow: 0 0 40px rgba(255, 170, 43, 0.05); }
+        .lock-container h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px; }
+        .lock-container p { font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 28px; }
+        .admin-bypass-form { background: var(--surface); border: 1px solid rgba(255, 255, 255, 0.05); padding: 6px; border-radius: 14px; display: flex; gap: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .admin-bypass-form input { flex: 1; background: transparent; border: none; outline: none; padding: 0 16px; color: var(--text-main); font-family: 'Space Grotesk', sans-serif; font-size: 14px; letter-spacing: 2px; }
+        .admin-bypass-form input::placeholder { letter-spacing: normal; color: rgba(248, 250, 252, 0.2); }
+        .bypass-submit-btn { background: var(--surface-card); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--text-main); padding: 10px 20px; border-radius: 10px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s ease; }
+        .bypass-submit-btn:hover { background: var(--amber); border-color: var(--amber); color: #000; box-shadow: 0 0 15px rgba(255, 170, 43, 0.3); }
+        .error-hint { color: var(--coral); font-size: 12px; margin-top: 12px; font-weight: 500; opacity: 0; transition: opacity 0.2s ease; }
+        .close-x { position: fixed; top: 30px; right: 30px; background: transparent; border: 2px solid rgba(255, 255, 255, 0.2); color: rgba(248, 250, 252, 0.7); width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 200; transition: all 0.2s ease; font-size: 22px; }
+        .close-x:hover { background: var(--coral); border-color: var(--coral); color: var(--text-main); box-shadow: 0 0 20px rgba(255, 59, 111, 0.4); }
+    </style>
+</head>
+<body>
+
+    <button id="close-x" class="close-x" onclick="closePresentation()">&times;</button>
+    
+    <div class="workspace-hub">
+
+        <div class="lockout-blanket" id="lock-screen">
+            <div class="lock-container">
+                <div class="lock-icon-wrapper" id="lock-icon-box">
+                    <i class="fa-solid fa-lock" id="lock-icon"></i>
+                </div>
+                <h3>Week 4 Presentation Core</h3>
+                <p id="lock-status-text">This deployment is scheduled to unlock for student sync channels automatically on the official target date.</p>
+                <div class="admin-bypass-form">
+                    <input type="password" id="admin-pass-input" placeholder="Enter teacher bypass code...">
+                    <button class="bypass-submit-btn" onclick="verifyTeacherBypass()">Unlock</button>
+                </div>
+                <div class="error-hint" id="error-message">Invalid Master Key Override Code.</div>
+            </div>
+        </div>
+
+        <div class="deck-topbar">
+            <div class="academy-brand">AMC <span>ACADEMY</span></div>
+            <div class="status-badge locked" id="badge-indicator">System Lock Active</div>
+        </div>
+
+        <div class="slide-stage">
+            
+            <div class="slide-wrapper active">
+                <div class="slide-tag">Multi-Set Visual Logic & PIE // Week 4</div>
+                <h2 class="slide-title hero-title-giant">THE OVERLAP MAP: <span>UNTANGLING SYSTEMS</span></h2>
+                <p class="narrative-text">When different groups share members, normal adding causes mistakes. We will use visual maps to break these challenges down into pieces you can manage, even when three or four sets are overlapping at once.</p>
+                <div class="hero-test-card">
+                    <h4>The Overlap Paradox</h4>
+                    <p>Why can't we simply add sizes together? Every shared element is counted twice, corrupting the absolute population universe size.</p>
+                </div>
+            </div>
+
+            <div class="slide-wrapper">
+                <div class="slide-tag">01 // Strategic Reflection</div>
+                <h2 class="slide-title">Last Week Recap: <span>Grid Pathways</span></h2>
+                <div class="recap-stack">
+                    <div class="recap-item">
+                        <div class="recap-question"><i class="fa-solid fa-map-pin"></i> Matrix Routing Fields</div>
+                        <div class="recap-answer">We drilled specific combinatorial equations for tracking spatial arrangements containing duplicate direction sets (like Rights and Ups) through constrained checkpoints.</div>
+                    </div>
+                    <div class="recap-item challenge-box">
+                        <div class="recap-question"><i class="fa-solid fa-scissors"></i> CHOKEPOINT SYSTEM</div>
+                        <div class="recap-answer" style="color: var(--text-main);">To solve path blocks or forced stops, split the path matrix into isolated multiplication sub-grids, treating checkpoints as micro-universes.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-wrapper">
+                <div class="slide-tag">02 // Baseline Assessment</div>
+                <h2 class="slide-title">Warmup <span>Logic Check</span></h2>
+                <div class="recap-stack">
+                    <div class="recap-item">
+                        <div class="recap-question"><i class="fa-solid fa-route"></i> Problem 1</div>
+                        <div class="recap-answer">How many ways can you move from <math><mo>(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>)</mo></math> to <math><mo>(</mo><mn>4</mn><mo>,</mo><mn>2</mn><mo>)</mo></math> walking only right and up steps? (Target: <math><mfrac><mrow><mn>6</mn><mo>!</mo></mrow><mrow><mn>4</mn><mo>!</mo><mn>2</mn><mo>!</mo></mrow></mfrac><mo>=</mo><mn>15</mn></math>)</div>
+                    </div>
+                    <div class="recap-item">
+                        <div class="recap-question"><i class="fa-solid fa-ban"></i> Problem 2</div>
+                        <div class="recap-answer">A path must travel from A to B via checkpoint C. If there are 3 paths from A to C and 4 paths from C to B, how many total paths exist? (Target: <math><mn>3</mn><mo>&times;</mo><mn>4</mn><mo>=</mo><mn>12</mn></math>)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-wrapper">
+                <div class="slide-tag">03 // Framework Initialization</div>
+                <h2 class="slide-title">Managing the <span>Shared Membership</span></h2>
+                <div class="split-grid">
+                    <div class="column-card">
+                        <h3>THE PIECEMEAL SPLIT</h3>
+                        <p>When different groups share members, normal adding causes mistakes. Visual maps allow us to partition the dataset into independent, non-overlapping segments.</p>
+                    </div>
+                    <div class="column-card coral-variant">
+                        <h3>SYSTEM BALANCE</h3>
+                        <p>Instead of struggling with abstract populations, we map elements to unique visual regions, ensuring every individual is counted exactly once.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-wrapper">
+                <div class="slide-tag">04 // Core Case Deep-Dive</div>
+                <h2 class="slide-title">Dissecting <span>Overlaps</span></h2>
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; font-size: 16px; line-height: 1.8;">
+                    <p style="color: var(--amber); margin-bottom: 12px; font-weight: 600;">Scenario: In an academy group, 18 students join the programming circle, 14 join code theory, and 6 join both.</p>
+                    <p>1. Isolate the deep core overlap region first: <br>&nbsp;&nbsp;&nbsp;&nbsp;Intersection = 6 students.</p>
+                    <p style="margin-top: 8px;">2. Deduct that intersection from individual raw group numbers to protect region values: <br>&nbsp;&nbsp;&nbsp;&nbsp;Pure programming only = <math><mn>18</mn><mo>&minus;</mo><mn>6</mn><mo>=</mo><mn>12</mn></math>. Pure theory only = <math><mn>14</mn><mo>&minus;</mo><mn>6</mn><mo>=</mo><mn>8</mn></math>.</p>
+                    <p style="color: var(--coral); font-weight: 600; margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05);">3. Total visual component allocation map output: <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>12</mn><mtext> (Left Only)</mtext><mo>+</mo><mn>6</mn><mtext> (Shared Core)</mtext><mo>+</mo><mn>8</mn><mtext> (Right Only)</mtext><mo>=</mo><mn>26</mn><mtext> unique students.</mtext></math></p>
+                </div>
+            </div>
+
+            <div class="slide-wrapper">
+                <div class="slide-tag">05 // Tactical Theory</div>
+                <h2 class="slide-title">The Principle of <span>Inclusion-Exclusion</span></h2>
+                <div class="highlight-math-box">
+                    <code style="font-family: 'Space Grotesk', sans-serif; font-size: 20px;">Total = A + B + C - (AB + BC + CA) + ABC</code>
+                </div>
+                <p class="narrative-text" style="font-size: 15px; margin-top: 15px;">
+                    <strong style="color:var(--amber);">PIE STRUCTURE:</strong> Add single sets up, drop out double-counted intersections, and safely add back the shared triple center node.<br>
+                    <strong style="color:var(--coral);">THE OUTSIDE MATRIX:</strong> Don't forget that if the question mentions elements belonging to none of the options, subtract your calculated Union total from the entire universe.
+                </p>
+            </div>
+
+            <div class="slide-wrapper">
+                <div class="slide-tag">06 // Strategic Engagement</div>
+                <h2 class="slide-title">Battle Zone: <span>Timers Active</span></h2>
+                <div class="timer-matrix">
+                    <div class="matrix-card">
+                        <h4>LEVEL 1: CATEGORY SPLIT</h4>
+                        <p>In a squad of 40 math contestants, 22 solve geometry well, and 18 solve algebra. If 7 master both types, how many do not master either category?</p>
+                        <div class="matrix-footer"><span>2 Min</span><span>2-Set Correction</span></div>
+                    </div>
+                    <div class="matrix-card l2">
+                        <h4>LEVEL 2: MULTIPLE SCAN</h4>
+                        <p>How many positive integers less than or equal to 60 are multiples of 2 or multiples of 5? Remember to subtract common overlaps.</p>
+                        <div class="matrix-footer"><span>3 Min</span><span>Overlap Filter</span></div>
+                    </div>
+                    <div class="matrix-card l3">
+                        <h4>LEVEL 3: TRI-MATRIX</h4>
+                        <p>Out of 50 students, 20 like math, 20 like art, 20 like music. 7 like math/art, 8 like art/music, 6 like math/music. 3 like all three. How many like none?</p>
+                        <div class="matrix-footer"><span>4 Min</span><span>Triple Balance</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-wrapper">
+                <div class="slide-tag">07 // Elite Challenge Horizon</div>
+                <h2 class="slide-title">Battle Zone: <span>Level 3 Elite</span></h2>
+                <div class="hero-test-card" style="border-color: var(--coral);">
+                    <h4>THE OVERLAPPING TRI-MATRIX</h4>
+                    <p style="font-size: 22px;">A group of 60 competitors test on tracking numbers. 25 pass test A, 26 pass test B, and 26 pass test C. 9 pass both A and B, 11 pass both B and C, and 8 pass both A and C. If 3 exceptional students pass all three tests, find out exactly how many failed to pass any test at all.</p>
+                </div>
+                <p class="narrative-text" style="margin-top: 30px; font-style: italic;">"Isolate sections step-by-step starting right at the triple intersection point of your map."</p>
+            </div>
+
+        </div>
+
+        <div class="deck-controls">
+            <div class="slide-counter">SLIDE <span id="current-index">1</span> OF <span id="total-count">8</span></div>
+            <div class="nav-actions">
+                <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)" disabled><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="nav-btn" id="next-btn" onclick="changeSlide(1)"><i class="fa-solid fa-chevron-right"></i></button>
+                <button class="nav-btn" id="close-nav" onclick="closePresentation()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+        </div>
+
+        <div class="progress-timeline" id="progress-bar"></div>
+    </div>
+
+    <script>
+        const TARGET_RELEASE_DATE = new Date("2026-10-02T00:00:00"); 
+        const TEACHER_BYPASS_KEY = "AMC8MASTER";                     
+        
+        const lockScreen = document.getElementById('lock-screen');
+        const lockIcon = document.getElementById('lock-icon');
+        const lockIconBox = document.getElementById('lock-icon-box');
+        const lockStatusText = document.getElementById('lock-status-text');
+        const passInput = document.getElementById('admin-pass-input');
+        const errMsg = document.getElementById('error-message');
+        const badgeIndicator = document.getElementById('badge-indicator');
+        
+        const slides = document.querySelectorAll('.slide-wrapper');
+        const currentIndexEl = document.getElementById('current-index');
+        const totalCountEl = document.getElementById('total-count');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const progressBar = document.getElementById('progress-bar');
+        
+        let currentSlideIndex = 0;
+        totalCountEl.textContent = slides.length;
+
+        function evaluateAutoLockStatus() {
+            const today = new Date();
+            if (today >= TARGET_RELEASE_DATE) {
+                lockScreen.classList.add('hidden');
+                badgeIndicator.className = "status-badge unlocked";
+                badgeIndicator.textContent = "Public Sync Active";
+            } else {
+                badgeIndicator.className = "status-badge locked";
+                badgeIndicator.textContent = "System Lock Active";
+                const daysLeft = Math.ceil((TARGET_RELEASE_DATE - today) / (1000 * 60 * 60 * 24));
+                lockStatusText.innerHTML = `Automated unlocking scheduled to activate in <strong>${daysLeft} days</strong> (${TARGET_RELEASE_DATE.toLocaleDateString()}). Enter admin bypass code below to proceed.`;
+            }
+        }
+
+        function verifyTeacherBypass() {
+            const enteredCode = passInput.value.trim();
+            if (enteredCode === TEACHER_BYPASS_KEY) {
+                errMsg.style.opacity = "0";
+                lockIcon.className = "fa-solid fa-lock-open";
+                lockIconBox.style.borderColor = "var(--coral)";
+                lockIconBox.style.color = "var(--coral)";
+                lockIconBox.style.background = "rgba(255, 59, 111, 0.05)";
+                setTimeout(() => {
+                    lockScreen.classList.add('hidden');
+                    badgeIndicator.className = "status-badge unlocked";
+                    badgeIndicator.textContent = "Bypass Mode Active";
+                }, 600);
+            } else {
+                errMsg.style.opacity = "1";
+                passInput.value = "";
+                passInput.focus();
+            }
+        }
+
+        function updateDeckUI() {
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === currentSlideIndex);
+            });
+            currentIndexEl.textContent = currentSlideIndex + 1;
+            prevBtn.disabled = currentSlideIndex === 0;
+            nextBtn.disabled = currentSlideIndex === slides.length - 1;
+            progressBar.style.width = `${(currentSlideIndex / (slides.length - 1)) * 100}%`;
+        }
+
+        function changeSlide(direction) {
+            currentSlideIndex += direction;
+            updateDeckUI();
+        }
+
+        function closePresentation() {
+            document.body.style.opacity = "0";
+            setTimeout(() => {
+                window.location.href = 'index.html#archive';
+            }, 250);
+        }
+
+        passInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') verifyTeacherBypass();
+        });
+
+        evaluateAutoLockStatus();
+        updateDeckUI();
+    </script>
+</body>
+</html>
