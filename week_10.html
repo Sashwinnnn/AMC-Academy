@@ -470,7 +470,7 @@
                     </div>
                     <div class="recap-item challenge-box">
                         <div class="recap-question"><i class="fa-solid fa-link"></i> THE BRIDGE TO TODAY</div>
-                        <div class="recap-answer" style="color: var(--text-main);">Probability often involves repeated actions over $n$ trials. Pattern recognition helps us instantly compute sums and periodic outcomes without listing.</div>
+                        <div class="recap-answer" style="color: var(--text-main);">Probability often involves repeated actions over <math><mi>n</mi></math> trials. Pattern recognition helps us instantly compute sums and periodic outcomes without listing.</div>
                     </div>
                 </div>
             </div>
@@ -496,7 +496,7 @@
                 <div class="split-grid">
                     <div class="column-card">
                         <h3>ARITHMETIC SEQUENCES</h3>
-                        <p>Constant difference <math><mi>d</mi></math> between terms: <math><msub><mi>a</mi><mi>n</mi></msub><mo>=</mo><msub><mi>a</mi><mn>1</mn></msub><mo>+</mo><mo>(</mo><mi>n</mi><mo>&minus;</mo><mn>1</mn><mo>)</mo><mi>d</mi></math>.<br>Sum formula: <math><msub><mi>S</mi><mi>n</mi></msub><mo>=</mo><mi>n</mi><mo>&times;</mo><mtext>Average</mtext><mo>=</mo><mi>n</mi><mo>&times;</mo><mfrac><mrow><msub><mi>a</mi><mn>1</mn></msub><mo>+</mo><msub><mi>a</mi><mi>n</mi></msub></mrow><mn>2</mn></mfrac></math>.</p>
+                        <p>Constant difference <math><mi>d</mi></math> between terms: <math><msub><mi>a</mi><mi>n</mi></msub><mo>=</mo><msub><mi>a</mi><mn>1</mn></msub><mo>+</mo><mo>(</mo><mi>n</mi><mo>&minus;</mo><mn>1</mn><mo>)</mo><mi>d</mi></math>.<br>Sum formula: <math><msub><mi>S</mi><mi>n</mi></msub><mo>=</mo><mi>n</mi><mo>&times;</mo><mtext>Average</mtext><mo>=</mo><mi>n</mi><mo>&times;</mo><mfrac><mrow><msub><mi>a</mi><mn>1</mn></msub><mo>+</mo><msub><mi>a</mi><mn>n</mn></msub></mrow><mn>2</mn></mfrac></math>.</p>
                     </div>
                     <div class="column-card coral-variant">
                         <h3>PERIODIC MODULAR PATTERNS</h3>
@@ -520,11 +520,11 @@
                 <div class="slide-tag">05 // Advanced Theory</div>
                 <h2 class="slide-title">Fibonacci & <span>Recursive Relations</span></h2>
                 <div class="highlight-math-box">
-                    <code style="font-family: 'Space Grotesk', sans-serif; font-size: 19px;">a<sub>n</sub> = a<sub>n-1</sub> + a<sub>n-2</sub></code>
+                    <math><msub><mi>a</mi><mi>n</mi></msub><mo>=</mo><msub><mi>a</mi><mrow><mi>n</mi><mo>&minus;</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>a</mi><mrow><mi>n</mi><mo>&minus;</mo><mn>2</mn></mrow></msub></math>
                 </div>
                 <p class="narrative-text" style="font-size: 15px; margin-top: 15px;">
                     <strong style="color:var(--amber);">RECURSIVE TRACKING:</strong> When terms depend on previous values, tabulate step-by-step or search for repeating remainder cycles (e.g., parity/even-odd loops).<br>
-                    <strong style="color:var(--coral);">SUM OF ODD INTEGERS:</strong> The sum of the first $n$ odd positive integers is always a perfect square: <math><mn>1</mn><mo>+</mo><mn>3</mn><mo>+</mo><mn>5</mn><mo>+</mo><mo>&hellip;</mo><mo>+</mo><mo>(</mo><mn>2</mn><mi>n</mi><mo>&minus;</mo><mn>1</mn><mo>)</mo><mo>=</mo><msup><mi>n</mi><mn>2</mn></msup></math>.
+                    <strong style="color:var(--coral);">SUM OF ODD INTEGERS:</strong> The sum of the first <math><mi>n</mi></math> odd positive integers is always a perfect square: <math><mn>1</mn><mo>+</mo><mn>3</mn><mo>+</mo><mn>5</mn><mo>+</mo><mo>&hellip;</mo><mo>+</mo><mo>(</mo><mn>2</mn><mi>n</mi><mo>&minus;</mo><mn>1</mn><mo>)</mo><mo>=</mo><msup><mi>n</mi><mn>2</mn></msup></math>.
                 </p>
             </div>
 
@@ -534,7 +534,7 @@
                 <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; font-size: 17px; line-height: 1.8;">
                     <p style="color: var(--amber); margin-bottom: 12px; font-weight: 600;">Question: Find the sum of all multiples of 3 between 10 and 100.</p>
                     <p>1. <strong>Identify First and Last Terms:</strong> <br>&nbsp;&nbsp;&nbsp;&nbsp;First term <math><msub><mi>a</mi><mn>1</mn></msub><mo>=</mo><mn>12</mn></math>, Last term <math><msub><mi>a</mi><mi>n</mi></msub><mo>=</mo><mn>99</mn></math>.</p>
-                    <p style="margin-top: 8px;">2. <strong>Determine Number of Terms ($n$):</strong> <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>99</mn><mo>=</mo><mn>12</mn><mo>+</mo><mo>(</mo><mi>n</mi><mo>&minus;</mo><mn>1</mn><mo>)</mo><mo>&times;</mo><mn>3</mn></math> &rarr; <math><mn>87</mn><mo>=</mo><mn>3</mn><mo>(</mo><mi>n</mi><mo>&minus;</mo><mn>1</mn><mo>)</mo></math> &rarr; <math><mi>n</mi><mo>&minus;</mo><mn>1</mn><mo>=</mo><mn>29</mn></math> &rarr; <math><mi>n</mi><mo>=</mo><mn>30</mn></math> terms.</p>
+                    <p style="margin-top: 8px;">2. <strong>Determine Number of Terms (<math><mi>n</mi></math>):</strong> <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mn>99</mn><mo>=</mo><mn>12</mn><mo>+</mo><mo>(</mo><mi>n</mi><mo>&minus;</mo><mn>1</mn><mo>)</mo><mo>&times;</mo><mn>3</mn></math> &rarr; <math><mn>87</mn><mo>=</mo><mn>3</mn><mo>(</mo><mi>n</mi><mo>&minus;</mo><mn>1</mn><mo>)</mo></math> &rarr; <math><mi>n</mi><mo>&minus;</mo><mn>1</mn><mo>=</mo><mn>29</mn></math> &rarr; <math><mi>n</mi><mo>=</mo><mn>30</mn></math> terms.</p>
                     <p style="color: var(--coral); font-weight: 600; margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05);">3. <strong>Apply Sum Formula:</strong> <br>&nbsp;&nbsp;&nbsp;&nbsp;<math><mi>S</mi><mo>=</mo><mn>30</mn><mo>&times;</mo><mfrac><mrow><mn>12</mn><mo>+</mo><mn>99</mn></mrow><mn>2</mn></mfrac><mo>=</mo><mn>30</mn><mo>&times;</mo><mn>55.5</mn><mo>=</mo><mn>1665</mn></math></p>
                 </div>
             </div>
