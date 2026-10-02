@@ -785,120 +785,165 @@
     </footer>
 
     <script>
-        const path1 = document.getElementById('graph-path-1');
-        const path2 = document.getElementById('graph-path-2');
-        const path3 = document.getElementById('graph-path-3');
-        const revealCards = document.querySelectorAll('.scroll-reveal-card');
+    const path1 = document.getElementById('graph-path-1');
+    const path2 = document.getElementById('graph-path-2');
+    const path3 = document.getElementById('graph-path-3');
+    const revealCards = document.querySelectorAll('.scroll-reveal-card');
+    
+    const block1 = document.getElementById('block-part-1');
+    const blockA = document.getElementById('block-part-a');
+    const blockB = document.getElementById('block-part-b');
+
+    // --- Dynamic Lock/Unlock Schedule ---
+    // Sets Week 1 unlock date (Format: YYYY-MM-DD)
+    const START_DATE = new Date('2026-10-05T00:00:00'); 
+    const MS_PER_WEEK = 7 * 24 * 60 * 60 * 1000;
+
+    function updateWeekAvailability() {
+        const now = new Date();
+        const timeDiff = now - START_DATE;
         
-        const block1 = document.getElementById('block-part-1');
-        const blockA = document.getElementById('block-part-a');
-        const blockB = document.getElementById('block-part-b');
+        // Calculate unlocked week index (1 = Week 1, 2 = Week 2, etc.)
+        const currentUnlockedWeek = timeDiff < 0 ? 0 : Math.floor(timeDiff / MS_PER_WEEK) + 1;
 
-        // --- DYNAMIC GOOGLE SHEET RESPONSE COUNTER ---
-        const SHEET_ID = '1Ew_ji1-nZcGcsLCzkqL8c6Jv8fzGzbN-bAS2zUjfHhQ';
-        const GID = '1027393145';
-        const TOTAL_CAPACITY = 15;
+        // Query all week elements (expects data-week="1", data-week="2", etc.)
+        const weekElements = document.querySelectorAll('[data-week]');
 
-        async function fetchLiveSeats() {
-            const spotsElement = document.getElementById('spots-count');
-            const registerBtn = document.getElementById('register-btn');
-            
-            try {
-                // Fetch public CSV stream from your response Google Sheet tab
-                const response = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}`);
-                const csvText = await response.text();
+        weekElements.forEach(el => {
+            const weekNum = parseInt(el.getAttribute('data-week'), 10);
+
+            if (weekNum <= currentUnlockedWeek) {
+                // UNLOCKED STATE
+                el.classList.remove('locked');
+                el.classList.add('unlocked');
                 
-                // Parse rows & ignore header
-                const lines = csvText.split('\n').filter(line => line.trim().length > 0);
-                const registeredCount = Math.max(0, lines.length - 1);
+                // Re-enable click redirection if disabled
+                const urlPath = el.getAttribute('data-url');
+                if (urlPath) {
+                    el.onclick = (e) => redirectToWeek(e, urlPath);
+                }
+            } else {
+                // LOCKED STATE
+                el.classList.remove('unlocked');
+                el.classList.add('locked');
                 
-                const remainingSpots = Math.max(0, TOTAL_CAPACITY - registeredCount);
-                
-                if (spotsElement) {
-                    spotsElement.textContent = remainingSpots;
-                }
-
-                // Auto handle sold out state
-                if (remainingSpots === 0 && registerBtn) {
-                    spotsElement.textContent = "0";
-                    registerBtn.textContent = "Cohort Full - Join Waitlist";
-                    registerBtn.style.background = "var(--text-muted)";
-                }
-            } catch (error) {
-                console.error("Could not sync responses:", error);
-                if (spotsElement) spotsElement.textContent = TOTAL_CAPACITY;
-            }
-        }
-
-        // Run sync count on page land
-        fetchLiveSeats();
-
-        function calculatePathProgress(container, totalOffsetValue) {
-            const rect = container.getBoundingClientRect();
-            const viewHeight = window.innerHeight;
-            
-            const visibleAreaStart = viewHeight;
-            const visibleAreaEnd = -rect.height;
-            const totalScrollableArea = visibleAreaStart - visibleAreaEnd;
-            
-            const linearProgress = (visibleAreaStart - rect.top) / totalScrollableArea;
-            const strictProgress = Math.min(Math.max(linearProgress * 1.5 - 0.2, 0), 1);
-            
-            return totalOffsetValue - (strictProgress * totalOffsetValue);
-        }
-
-        function toggleArchiveDrawer(stripElement) {
-            const currentIsOpen = stripElement.classList.contains('open');
-            
-            document.querySelectorAll('.archive-strip').forEach(el => {
-                el.classList.remove('open');
-                const drawer = el.querySelector('.drawer-content');
-                if(drawer) drawer.style.maxHeight = null;
-            });
-
-            if (!currentIsOpen) {
-                stripElement.classList.add('open');
-                const targetDrawer = stripElement.querySelector('.drawer-content');
-                if(targetDrawer) {
-                    targetDrawer.style.maxHeight = targetDrawer.scrollHeight + "px";
-                }
-            }
-        }
-
-        function redirectToWeek(event, urlPath) {
-            event.stopPropagation();
-            document.body.style.opacity = "0";
-            document.body.style.transition = "opacity 0.25s ease";
-            setTimeout(() => {
-                window.location.href = urlPath;
-            }, 250);
-        }
-
-        const observerConfig = { threshold: 0.15 };
-        const cardObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting) {
-                    entry.target.classList.add('revealed');
-                }
-            });
-        }, observerConfig);
-
-        revealCards.forEach(card => cardObserver.observe(card));
-
-        window.addEventListener('scroll', () => {
-            const firstSectionScroll = window.scrollY;
-            const firstSectionHeight = block1.offsetHeight || 600;
-            const progress1 = Math.min(Math.max(firstSectionScroll / firstSectionHeight, 0), 1);
-            path1.style.strokeDashoffset = 1000 - (progress1 * 1000);
-
-            if(blockA) {
-                path2.style.strokeDashoffset = calculatePathProgress(blockA, 1000);
-            }
-
-            if(blockB) {
-                path3.style.strokeDashoffset = calculatePathProgress(blockB, 1200);
+                // Prevent navigation on locked weeks
+                el.onclick = (e) => {
+                    e.stopPropagation();
+                    alert(`Week ${weekNum} will unlock on ${getUnlockDateString(weekNum)}.`);
+                };
             }
         });
-    </script>
+    }
+
+    // Helper to format unlock date for locked week tooltips/alerts
+    function getUnlockDateString(weekNum) {
+        const unlockDate = new Date(START_DATE.getTime() + (weekNum - 1) * MS_PER_WEEK);
+        return unlockDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    // --- DYNAMIC GOOGLE SHEET RESPONSE COUNTER ---
+    const SHEET_ID = '1Ew_ji1-nZcGcsLCzkqL8c6Jv8fzGzbN-bAS2zUjfHhQ';
+    const GID = '1027393145';
+    const TOTAL_CAPACITY = 15;
+
+    async function fetchLiveSeats() {
+        const spotsElement = document.getElementById('spots-count');
+        const registerBtn = document.getElementById('register-btn');
+        
+        try {
+            const response = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}`);
+            const csvText = await response.text();
+            
+            const lines = csvText.split('\n').filter(line => line.trim().length > 0);
+            const registeredCount = Math.max(0, lines.length - 1);
+            const remainingSpots = Math.max(0, TOTAL_CAPACITY - registeredCount);
+            
+            if (spotsElement) {
+                spotsElement.textContent = remainingSpots;
+            }
+
+            if (remainingSpots === 0 && registerBtn) {
+                spotsElement.textContent = "0";
+                registerBtn.textContent = "Cohort Full - Join Waitlist";
+                registerBtn.style.background = "var(--text-muted)";
+            }
+        } catch (error) {
+            console.error("Could not sync responses:", error);
+            if (spotsElement) spotsElement.textContent = TOTAL_CAPACITY;
+        }
+    }
+
+    // Initialize schedule and seat counters
+    updateWeekAvailability();
+    fetchLiveSeats();
+
+    function calculatePathProgress(container, totalOffsetValue) {
+        const rect = container.getBoundingClientRect();
+        const viewHeight = window.innerHeight;
+        
+        const visibleAreaStart = viewHeight;
+        const visibleAreaEnd = -rect.height;
+        const totalScrollableArea = visibleAreaStart - visibleAreaEnd;
+        
+        const linearProgress = (visibleAreaStart - rect.top) / totalScrollableArea;
+        const strictProgress = Math.min(Math.max(linearProgress * 1.5 - 0.2, 0), 1);
+        
+        return totalOffsetValue - (strictProgress * totalOffsetValue);
+    }
+
+    function toggleArchiveDrawer(stripElement) {
+        const currentIsOpen = stripElement.classList.contains('open');
+        
+        document.querySelectorAll('.archive-strip').forEach(el => {
+            el.classList.remove('open');
+            const drawer = el.querySelector('.drawer-content');
+            if(drawer) drawer.style.maxHeight = null;
+        });
+
+        if (!currentIsOpen) {
+            stripElement.classList.add('open');
+            const targetDrawer = stripElement.querySelector('.drawer-content');
+            if(targetDrawer) {
+                targetDrawer.style.maxHeight = targetDrawer.scrollHeight + "px";
+            }
+        }
+    }
+
+    function redirectToWeek(event, urlPath) {
+        event.stopPropagation();
+        document.body.style.opacity = "0";
+        document.body.style.transition = "opacity 0.25s ease";
+        setTimeout(() => {
+            window.location.href = urlPath;
+        }, 250);
+    }
+
+    const observerConfig = { threshold: 0.15 };
+    const cardObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+            }
+        });
+    }, observerConfig);
+
+    revealCards.forEach(card => cardObserver.observe(card));
+
+    window.addEventListener('scroll', () => {
+        const firstSectionScroll = window.scrollY;
+        const firstSectionHeight = block1 ? block1.offsetHeight : 600;
+        const progress1 = Math.min(Math.max(firstSectionScroll / firstSectionHeight, 0), 1);
+        if (path1) path1.style.strokeDashoffset = 1000 - (progress1 * 1000);
+
+        if(blockA && path2) {
+            path2.style.strokeDashoffset = calculatePathProgress(blockA, 1000);
+        }
+
+        if(blockB && path3) {
+            path3.style.strokeDashoffset = calculatePathProgress(blockB, 1200);
+        }
+    });
+</script>
 </body>
 </html>
